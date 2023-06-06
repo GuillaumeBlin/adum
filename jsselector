@@ -1,0 +1,113 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+<div class="container">
+  <div class="row">
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="eddroit" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">ED Droit</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="edees" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">ED EES</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="edmi" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">EDMI</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="edse" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">EDSE</label>
+</div></div>
+  </div>
+  <div class="row">
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="edspi" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">ED SPI</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="edsvs" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">ED SVS</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="edsc" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">ED SC</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="ED" value="edsp2" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">ED SP2</label>
+</div></div>
+  </div>
+  <div class="row">
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="sith" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP SiTH</label>
+</div>
+</div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="sense" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP SENSE</label>
+</div>
+</div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="ecopodema" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP EcoPoDeMa</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="neuro" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP Bordeaux Neurocampus</label>
+</div></div>
+  </div>
+  <div class="row">
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="light" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP Light s&amp;T</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="dph" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP DPH</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="numerics" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP Numerics</label>
+</div></div>
+    <div class="col"><div class="form-check form-switch form-check-inline">
+  <input class="form-check-input filter" type="radio" role="switch" name="GP" value="eureka" onchange="clickFn(event)">
+  <label class="form-check-label" for="flexSwitchCheckDefault">GP EUREkA</label>
+</div></div>
+  </div>
+</div>
+
+
+
+
+<script type="text/javascript">
+
+function filterInfo(){
+    $("*[id^=filtered]").hide();
+    //$( ".filtered" ).hide();
+    $(".filter").each(function(){
+        if(Cookies.get(this.name)==this.value){
+            this.checked=true;
+        }
+        if(this.checked){
+            $("[id='filtered"+this.value+"']" ).each(function(){ $(this).show();});
+        }else{
+            $("[id='filtered"+this.value+"']").each(function(){ $(this).hide();});
+        }
+    });
+}
+
+function clickFn(event) {
+    Cookies.remove(event.target.name);
+    if(event.target.checked){
+        Cookies.set(event.target.name, event.target.value);
+    }
+    filterInfo();
+}
+
+$(function(){
+filterInfo();
+});
+//Dans custom CSS : id personnalisé filterededsp2, filterededmi, ...
+</script>
