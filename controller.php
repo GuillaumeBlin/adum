@@ -526,7 +526,7 @@ class Controller extends BlockController
          }
 
 
-         echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
+//         echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
  
          if ($this->filter != "" && !array_key_exists($this->filter, $membersbyGroup)) {
              if (strcmp($this->langage, "FR") == 0) {
