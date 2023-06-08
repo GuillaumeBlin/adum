@@ -506,10 +506,10 @@ class Controller extends BlockController
      private function load_members_annu()
      {
          $members = $this->retrieve_json("responsables", $this->year); 
-         $members = $members["data"][0];
+         $members = $members["data"];
 
          $structures = $this->retrieve_json("structures", $this->year);
-         $structures = $structures["data"][0];
+         $structures = $structures["data"];
 
          foreach ($members as &$value) {
              $ed = $value["ED_code"][0];
