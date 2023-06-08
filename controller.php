@@ -89,6 +89,15 @@ class Controller extends BlockController
     }
 
     /* DISPLAY functions */
+    private function display_member_annu($member){
+        echo "<li>";
+        echo '<a target="_blank" href="https://adum.fr/as/ed/detailResp.pl?resp=' . $member["matricule"] . '">' . $member["prenom"] . ' ' . $member["nom"] . '</a> ';                    
+        echo "</li>";
+    }
+
+    private function display_laboratory($lab){        
+        echo '<a target="_blank" href="https://adum.fr/as/ed/fiche.pl?mat=' . $$lab["matricule"] . '">' . $$lab["libelle"] . '</a> ';                            
+    }
 
     private function display_annu($defense)
     {
@@ -227,6 +236,11 @@ class Controller extends BlockController
     private function students_sorter(array $a, array $b)
     {
         return [$a['these_ED_code'], $a['these_specialite'], $a['nom']] <=> [$b['these_ED_code'], $b['these_specialite'], $b['nom']];
+    }
+
+    private function members_sorter(array $a, array $b)
+    {
+        return [$a['ED_code'], $a['nom'], $a['prenom']] <=> [$b['ED_code'], $b['nom'], $b['prenom']];
     }
 
     /* LOADING functions */
@@ -487,6 +501,83 @@ class Controller extends BlockController
         }
     }
 
+
+     /*ED members*/
+     private function load_members_annu()
+     {
+         $members = $this->retrieve_json("responsable", $this->year); 
+         $members = $members["data"][0];
+
+         $structures = $this->retrieve_json("structures", $this->year);
+         $structures = $structures["data"][0];
+
+         foreach ($members as &$value) {
+             $ed = $value["ED_code"][0];
+             $value["ED_code"]=$ed;
+         } 
+         usort($members, array($this, 'members_sorter'));
+ 
+
+         $structuresbyGroup = $this->group_by("matricule", $structures);
+
+         $membersbyGroup = $this->group_by("ED_code", $members);
+         foreach ($membersbyGroup as &$valueByED) {
+             $valueByED = $this->group_by("matricule_structure", $valueByED);
+         }
+
+
+         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
+ 
+         if ($this->filter != "" && !array_key_exists($this->filter, $membersbyGroup)) {
+             if (strcmp($this->langage, "FR") == 0) {
+                 echo "Aucun.e encadrant.e inscrit.e dans cette école doctorale.";
+             } else {
+                 echo "No PhD supervisor registered to this doctoral school.";
+             }
+         } else {
+             foreach ($membersbyGroup as $keyByED => $valueByED) {
+                 if ($this->filter == "") {
+                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                 } else {
+                     if ($keyByED != $this->filter) {
+                         continue;
+                     }
+                 }
+                 $datas = array();
+                 foreach ($valueByED as $keyByStructure => $valueByStructure) {
+                     $i = count($valueByStructure);
+                     if ($i > 1) {
+                         if (strcmp($this->langage, "FR") == 0) {
+                             $datas["Encadrant.e.s en " . $keyByStructure] = $i;
+                         } else {
+                             $datas["PhD supervisors in " . $keyByStructure] = $i;
+                         }
+                     } else {
+                         if (strcmp($this->langage, "FR") == 0) {
+                             $datas["Encadrant.e en " . $keyByStructure] = $i;
+                         } else {
+                             $datas["PhD supervisor in " . $keyByStructure] = $i;
+                         }
+                     }
+                 }
+                 $this->show_key_numbers($datas);
+                 if (strcmp($this->details, "True") == 0) {
+                     foreach ($valueByED as $keyByStructure => $valueByStructure) {
+                         if ($this->filter != "") {                            
+                             echo "<h3>" . $this->display_laboratory($structuresbyGroup[$keyByStructure]) . "</h3>";
+                         } else {
+                             echo "<h4>" . $this->display_laboratory($structuresbyGroup[$keyByStructure]) . "</h4>";
+                         }
+                         echo "<ul>";
+                         foreach ($valueByStructure as $member) {
+                             $this->display_member_annu($member);
+                         }
+                         echo "</ul>";
+                     }
+                 }
+             }
+         }
+     }
 
 
     /*Phd students*/
