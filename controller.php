@@ -505,7 +505,7 @@ class Controller extends BlockController
      /*ED members*/
      private function load_members_annu()
      {
-         $members = $this->retrieve_json("responsable", $this->year); 
+         $members = $this->retrieve_json("responsables", $this->year); 
          $members = $members["data"][0];
 
          $structures = $this->retrieve_json("structures", $this->year);
