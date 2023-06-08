@@ -521,7 +521,8 @@ class Controller extends BlockController
          $structuresbyGroup = $this->group_by("matricule", $structures);
 
          $structuresbyGroup[0]= array();
-         $structuresbyGroup[0]["libelle"]="Laboratoire inconnu";         
+         $structuresbyGroup[0][0]=array();
+         $structuresbyGroup[0][0]["libelle"]="Laboratoire inconnu";         
 
          $membersbyGroup = $this->group_by("ED_code", $members);
          foreach ($membersbyGroup as &$valueByED) {
