@@ -95,8 +95,8 @@ class Controller extends BlockController
         echo "</li>";
     }
 
-    private function display_laboratory($lab){        
-        echo '<a target="_blank" href="https://adum.fr/as/ed/fiche.pl?mat=' . $$lab["matricule"] . '">' . $$lab["libelle"] . '</a> ';                            
+    private function display_laboratory($mat,$lab){        
+        echo '<a target="_blank" href="https://adum.fr/as/ed/fiche.pl?mat=' . $mat . '">' . $lab[0]["libelle"] . '</a> ';                            
     }
 
     private function display_annu($defense)
@@ -526,7 +526,7 @@ class Controller extends BlockController
          }
 
 
-         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
+         echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
  
          if ($this->filter != "" && !array_key_exists($this->filter, $membersbyGroup)) {
              if (strcmp($this->langage, "FR") == 0) {
@@ -536,6 +536,9 @@ class Controller extends BlockController
              }
          } else {
              foreach ($membersbyGroup as $keyByED => $valueByED) {
+                if($keyByED ==""){
+                    continue;
+                }
                  if ($this->filter == "") {
                      echo "<h3>" . $this->codes[$keyByED] . "</h3>";
                  } else {
@@ -548,15 +551,15 @@ class Controller extends BlockController
                      $i = count($valueByStructure);
                      if ($i > 1) {
                          if (strcmp($this->langage, "FR") == 0) {
-                             $datas["Encadrant.e.s en " . $keyByStructure] = $i;
+                             $datas["Encadrant.e.s du " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          } else {
-                             $datas["PhD supervisors in " . $keyByStructure] = $i;
+                             $datas["PhD supervisors in " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          }
                      } else {
                          if (strcmp($this->langage, "FR") == 0) {
-                             $datas["Encadrant.e en " . $keyByStructure] = $i;
+                             $datas["Encadrant.e du " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          } else {
-                             $datas["PhD supervisor in " . $keyByStructure] = $i;
+                             $datas["PhD supervisor in " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          }
                      }
                  }
@@ -564,9 +567,9 @@ class Controller extends BlockController
                  if (strcmp($this->details, "True") == 0) {
                      foreach ($valueByED as $keyByStructure => $valueByStructure) {
                          if ($this->filter != "") {                            
-                             echo "<h3>" . $this->display_laboratory($structuresbyGroup[$keyByStructure]) . "</h3>";
+                             echo "<h3>" . $this->display_laboratory($keyByStructure,$structuresbyGroup[$keyByStructure]) . "</h3>";
                          } else {
-                             echo "<h4>" . $this->display_laboratory($structuresbyGroup[$keyByStructure]) . "</h4>";
+                             echo "<h4>" . $this->display_laboratory($keyByStructure,$structuresbyGroup[$keyByStructure]) . "</h4>";
                          }
                          echo "<ul>";
                          foreach ($valueByStructure as $member) {
