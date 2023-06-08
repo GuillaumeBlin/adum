@@ -520,6 +520,9 @@ class Controller extends BlockController
 
          $structuresbyGroup = $this->group_by("matricule", $structures);
 
+         $structuresbyGroup[0]=neaw array();
+         $structuresbyGroup[0]["libelle"]="Laboratoire inconnu";         
+
          $membersbyGroup = $this->group_by("ED_code", $members);
          foreach ($membersbyGroup as &$valueByED) {
              $valueByED = $this->group_by("matricule_structure", $valueByED);
@@ -547,7 +550,7 @@ class Controller extends BlockController
                      }
                  }
                  $datas = array();
-                 foreach ($valueByED as $keyByStructure => $valueByStructure) {
+                 foreach ($valueByED as $keyByStructure => $valueByStructure) {                    
                      $i = count($valueByStructure);
                      if ($i > 1) {
                          if (strcmp($this->langage, "FR") == 0) {
