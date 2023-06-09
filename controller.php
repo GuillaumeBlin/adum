@@ -575,7 +575,7 @@ class Controller extends BlockController
                          } else {
                              echo "<h4>" . $this->display_laboratory($keyByStructure,$structuresbyGroup[$keyByStructure]) . "</h4>";
                          }
-                         echo "<ul>";
+                         echo '<ul class="card-columns" style="column-count: 3;">';
                          foreach ($valueByStructure as $member) {
                              $this->display_member_annu($member);
                          }
