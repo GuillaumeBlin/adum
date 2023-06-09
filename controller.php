@@ -96,7 +96,7 @@ class Controller extends BlockController
     }
 
     private function display_laboratory($mat,$lab){        
-        echo '<a target="_blank" href="https://adum.fr/as/ed/fiche.pl?mat=' . $mat . '">' . $lab[0]["libelle"] . '</a> ';                            
+        return '<a target="_blank" href="https://adum.fr/as/ed/fiche.pl?mat=' . $mat . '">' . $lab[0]["libelle"] . '</a> ';                            
     }
 
     private function display_annu($defense)
