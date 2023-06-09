@@ -510,19 +510,23 @@ class Controller extends BlockController
 
          $structures = $this->retrieve_json("structures", $this->year);
          $structures = $structures["data"];
-
-         foreach ($members as &$value) {
-             $ed = $value["ED_code"][0];
-             $value["ED_code"]=$ed;
-         } 
-         usort($members, array($this, 'members_sorter'));
- 
-
          $structuresbyGroup = $this->group_by("matricule", $structures);
 
          $structuresbyGroup[0]= array();
          $structuresbyGroup[0][0]=array();
          $structuresbyGroup[0][0]["libelle"]="Laboratoire inconnu";         
+
+         foreach ($members as &$value) {
+             $ed = $value["ED_code"][0];
+             $value["ED_code"]=$ed;
+             if(!array_key_exists($value["matricule_structure"],$structuresbyGroup)){
+                $value["matricule_structure"]=0;
+             }
+         } 
+         usort($members, array($this, 'members_sorter'));
+ 
+
+         
 
          $membersbyGroup = $this->group_by("ED_code", $members);
          foreach ($membersbyGroup as &$valueByED) {
