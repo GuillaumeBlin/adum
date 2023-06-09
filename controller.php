@@ -559,15 +559,15 @@ class Controller extends BlockController
                      $i = count($valueByStructure);
                      if ($i > 1) {
                          if (strcmp($this->langage, "FR") == 0) {
-                             $datas["Encadrant.e.s du " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                             $datas["Encadrant.e.s - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          } else {
-                             $datas["PhD supervisors in " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                             $datas["PhD supervisors - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          }
                      } else {
                          if (strcmp($this->langage, "FR") == 0) {
-                             $datas["Encadrant.e du " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                             $datas["Encadrant.e - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          } else {
-                             $datas["PhD supervisor in " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                             $datas["PhD supervisor - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                          }
                      }
                  }
