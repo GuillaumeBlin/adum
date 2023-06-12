@@ -95,14 +95,14 @@ class Controller extends BlockController
 
             echo '<section class="block-collapsable">';
             echo '<header class="block-collapsable-header">';
-			echo '<h1 class="block-collapsable-title">'.$title.'</h1>';
+			echo '<h1 class="block-collapsable-title">'.utf8_encode($title).'</h1>';
 			echo '<button class="block-collapsable-toggler" type="button" aria-controls="block-collapsable-body-'.$modT.'" aria-expanded="false" aria-label="Afficher / cacher cette section"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">';
             echo '<path d="M21.6 11.333l-5.6 5.6-5.6-5.6-1.867 1.867 7.467 7.467 7.467-7.467z"></path>';
 			echo '</svg></button>';
 			echo '</header>';
 			echo '<div id="block-collapsable-body-'.$modT.'" class="block-collapsable-body" style="">';
 			echo '<div class="block-collapsable-body-inner">';
-            var_dump($content);
+            var_dump(utf8_encode($content));
             echo '</div>';
             echo '</div>';
             echo '</section>';            
