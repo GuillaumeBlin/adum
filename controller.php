@@ -85,6 +85,7 @@ class Controller extends BlockController
             'Content-Type: text/html'
         ));
         $content = curl_exec($curl);
+        var_dump($content);
         curl_close($curl);
         if (preg_match('/(<table.*?table>)/', $content, $match) == 1) {
             $content = $match[1];
