@@ -129,7 +129,7 @@ class Controller extends BlockController
 			echo '</header>';
 			echo '<div id="block-collapsable-body-'.$modT.'" class="block-collapsable-body" style="">';
 			echo '<div class="block-collapsable-body-inner">';
-            var_dump(utf8_encode($content));
+            echo utf8_encode($content);
             echo '</div>';
             echo '</div>';
             echo '</section>';            
