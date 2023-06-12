@@ -534,12 +534,12 @@ class Controller extends BlockController
                 array_push($nmembers, $value);
             }                        
         }
-        usort($members, array($this, 'members_sorter'));
+        usort($nmembers, array($this, 'members_sorter'));
 
 
 
 
-        $membersbyGroup = $this->group_by("ED_code", $members);
+        $membersbyGroup = $this->group_by("ED_code", $nmembers);
         foreach ($membersbyGroup as &$valueByED) {
             $valueByED = $this->group_by("matricule_structure", $valueByED);
         }
