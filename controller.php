@@ -65,7 +65,33 @@ class Controller extends BlockController
         return json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles[$type]), true);
     }
 
-    private function getTrainingContent($modT) {
+    
+    private function array_except($array, $keys)
+    {
+        return array_diff_key($array, array_flip((array) $keys));
+    }
+
+    private function array_extract($array, $keys)
+    {
+        return array_intersect_key($array, array_flip((array) $keys));
+    }
+
+    private function group_by($key, $data)
+    {
+        $result = array();
+        foreach ($data as $val) {
+            if (array_key_exists($key, $val)) {
+                $result[$val[$key]][] = $this->array_except($val, $key);
+            } else {
+                $result[""][] = $this->array_except($val, $key);
+            }
+        }
+        return $result;
+    }
+
+    /* DISPLAY functions */
+
+    private function display_training($modT) {
         $useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36';
         $timeout= 10;
         $dir            = dirname(__FILE__);
@@ -109,30 +135,6 @@ class Controller extends BlockController
         }
     }
 
-    private function array_except($array, $keys)
-    {
-        return array_diff_key($array, array_flip((array) $keys));
-    }
-
-    private function array_extract($array, $keys)
-    {
-        return array_intersect_key($array, array_flip((array) $keys));
-    }
-
-    private function group_by($key, $data)
-    {
-        $result = array();
-        foreach ($data as $val) {
-            if (array_key_exists($key, $val)) {
-                $result[$val[$key]][] = $this->array_except($val, $key);
-            } else {
-                $result[""][] = $this->array_except($val, $key);
-            }
-        }
-        return $result;
-    }
-
-    /* DISPLAY functions */
     private function display_member_annu($member)
     {        
         echo "<li>";
@@ -247,8 +249,6 @@ class Controller extends BlockController
     private function display_defense_to_come($defense)
     {
 
-        echo $this->getTrainingContent("3522217");
-        return;
         echo "<li>";
         if (strcmp($this->langage, "FR") == 0) {
             echo '<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre"] . '</a> ';
@@ -289,6 +289,11 @@ class Controller extends BlockController
     private function members_sorter(array $a, array $b)
     {
         return [$a['ED_code'], $a['nom'], $a['prenom']] <=> [$b['ED_code'], $b['nom'], $b['prenom']];
+    }
+
+    private function trainings_sorter(array $a, array $b)
+    {
+        return [$a['ED_code'], $a['mod']] <=> [$b['ED_code'], $b['mod']];
     }
 
     /* LOADING functions */
@@ -815,6 +820,84 @@ class Controller extends BlockController
                         }
                         echo "</ul>";
                     }
+                }
+            }
+        }
+    }
+
+
+    /*Incoming defense*/
+    private function load_training_by_ed()
+    {        
+        $trainings = $this->retrieve_json("formations", $this->year);
+
+        $trainings = $trainings["data"];
+        
+        $ntrainings=array();
+        foreach ($trainings as &$value) {
+            $i = count($value["ED_code"]);
+            if ($i == 0) {
+                unset($value);
+                continue;
+            }
+            $eds = array_replace([], $value["ED_code"]);
+            foreach ($eds as $ed) {
+                $value["ED_code"] = $ed;
+                array_push($ntrainings, $value);
+            }                        
+        }
+        usort($ntrainings, array($this, 'trainings_sorter'));
+
+        $trainingsbyGroup = $this->group_by("ED_code", $trainings);
+
+        //echo "<pre>" . var_export($byGroup, true) . "</pre>";
+
+        if ($this->filter != "" && !array_key_exists($this->filter, $trainingsbyGroup)) {
+            if (strcmp($this->langage, "FR") == 0) {
+                echo "Pas de formation pour cette école doctorale.";
+            } else {
+                echo "No training courses for this doctoral school.";
+            }
+        } else {
+            foreach ($trainingsbyGroup as $keyByED => $valueByED) {
+                if ($this->filter == "") {
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                } else {
+                    if ($keyByED != $this->filter) {
+                        continue;
+                    }
+                }
+                /*$datas = array();
+                foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                    $i = count($valueBySpeciality);
+                    if ($i > 1) {
+                        if (strcmp($this->langage, "FR") == 0) {
+                            $datas["Soutenances en " . $keyBySpeciality] = $i;
+                        } else {
+                            $datas["PhD defenses in " . $keyBySpeciality] = $i;
+                        }
+                    } else {
+                        if (strcmp($this->langage, "FR") == 0) {
+                            $datas["Soutenance en " . $keyBySpeciality] = $i;
+                        } else {
+                            $datas["PhD defense in " . $keyBySpeciality] = $i;
+                        }
+                    }
+                }
+                $this->show_key_numbers($datas);*/
+                if (strcmp($this->details, "True") == 0) {
+                    /*foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                        if ($this->filter != "") {
+                            echo "<h3>" . $keyBySpeciality . "</h3>";
+                        } else {
+                            echo "<h4>" . $keyBySpeciality . "</h4>";
+                        }
+                        echo "<ul>";*/
+                        foreach ($valueByED as $training) {
+                            $this->display_training($training["mod"]);
+                        }
+                        //echo "</ul>";
+                    //}
                 }
             }
         }
