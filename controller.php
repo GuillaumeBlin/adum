@@ -528,7 +528,7 @@ class Controller extends BlockController
                 unset($value);
                 continue;
             }
-            $eds = $value["ED_code"];
+            $eds = array_replace([], $value["ED_code"]);
             foreach ($eds as $ed) {
                 $value["ED_code"] = $ed;
                 array_push($nmembers, $value);
