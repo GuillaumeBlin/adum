@@ -67,9 +67,9 @@ class Controller extends BlockController
 
     private function getTrainingContent($modT) {
         $useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36';
-        $timeout= 120;
+        $timeout= 10;
         $dir            = dirname(__FILE__);
-        $cookie_file    = $dir . '/bob.txt';
+        $cookie_file    = $dir . '/'.$modT.'.txt';
     
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
@@ -85,18 +85,28 @@ class Controller extends BlockController
             'Content-Type: text/html'
         ));
         $content = curl_exec($curl);
-        var_dump($content);
         curl_close($curl);
-        if (preg_match('/(<table.*?table>)/', $content, $match) == 1) {
+        if (preg_match('/(<table.*?table>)/ms', $content, $match) == 1) {
             $content = $match[1];
-            if (preg_match('/(<h2.*?h2>)/', $content, $match) == 1) {
+            if (preg_match('/(<h2.*?h2>)/ms', $content, $match) == 1) {
                 $title = $match[1];
             }
-            $content=preg_replace('/<tr.*?tr>/', "", $content,1);
-            return $content;
+            $content=preg_replace('/<tr.*?tr>/ms', "", $content,1);
+
+            echo '<section class="block-collapsable">';
+            echo '<header class="block-collapsable-header">';
+			echo '<h1 class="block-collapsable-title">'.$title.'</h1>';
+			echo '<button class="block-collapsable-toggler" type="button" aria-controls="block-collapsable-body-'.$modT.'" aria-expanded="false" aria-label="Afficher / cacher cette section"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">';
+            echo '<path d="M21.6 11.333l-5.6 5.6-5.6-5.6-1.867 1.867 7.467 7.467 7.467-7.467z"></path>';
+			echo '</svg></button>';
+			echo '</header>';
+			echo '<div id="block-collapsable-body-'.$modT.'" class="block-collapsable-body" style="">';
+			echo '<div class="block-collapsable-body-inner">';
+            var_dump($content);
+            echo '</div>';
+            echo '</div>';
+            echo '</section>';            
         }
-        
-       return "";
     }
 
     private function array_except($array, $keys)
@@ -124,9 +134,7 @@ class Controller extends BlockController
 
     /* DISPLAY functions */
     private function display_member_annu($member)
-    {
-        echo $this->getTrainingContent("3522217");
-        return;
+    {        
         echo "<li>";
         echo '<a target="_blank" href="https://adum.fr/as/ed/detailResp.pl?resp=' . $member["matricule"] . '">' . $member["prenom"] . ' ' . $member["nom"] . '</a> ';
         echo "</li>";
@@ -239,6 +247,8 @@ class Controller extends BlockController
     private function display_defense_to_come($defense)
     {
 
+        echo $this->getTrainingContent("3522217");
+        return;
         echo "<li>";
         if (strcmp($this->langage, "FR") == 0) {
             echo '<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre"] . '</a> ';
