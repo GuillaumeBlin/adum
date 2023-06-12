@@ -529,24 +529,12 @@ class Controller extends BlockController
                 continue;
             }
             $eds = array_replace([], $value["ED_code"]);
-            if($value["matricule"]==11630){
-                var_dump($eds);
-            }
             foreach ($eds as $ed) {
-                if($value["matricule"]==11630){
-                    echo $ed;
-                }
                 $value["ED_code"] = $ed;
-                if($value["matricule"]==11630){
-                    var_dump($value);
-                }
                 array_push($nmembers, $value);
             }                        
         }
         usort($nmembers, array($this, 'members_sorter'));
-
-
-
 
         $membersbyGroup = $this->group_by("ED_code", $nmembers);
         foreach ($membersbyGroup as &$valueByED) {
