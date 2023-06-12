@@ -65,6 +65,39 @@ class Controller extends BlockController
         return json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles[$type]), true);
     }
 
+    private function getTrainingContent($modT) {
+        $useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36';
+        $timeout= 120;
+        $dir            = dirname(__FILE__);
+        $cookie_file    = $dir . '/bob.txt';
+    
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($curl, CURLOPT_URL, "https://adum.fr/script/formations.pl?mod=".$modT."&site=UBX");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_COOKIEFILE, $cookie_file);
+        curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie_file);
+        curl_setopt($curl, CURLOPT_USERAGENT, $useragent);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+            'Content-Type: text/html'
+        ));
+        $content = curl_exec($curl);
+        curl_close($curl);
+        if (preg_match('/(<table.*?table>)/', $content, $match) == 1) {
+            $content = $match[1];
+            if (preg_match('/(<h2.*?h2>)/', $content, $match) == 1) {
+                $title = $match[1];
+            }
+            $content=preg_replace('/<tr.*?tr>/', "", $content,1);
+            return $content;
+        }
+        
+       return "";
+    }
+
     private function array_except($array, $keys)
     {
         return array_diff_key($array, array_flip((array) $keys));
@@ -91,6 +124,8 @@ class Controller extends BlockController
     /* DISPLAY functions */
     private function display_member_annu($member)
     {
+        echo $this->getTrainingContent("3522217");
+        return;
         echo "<li>";
         echo '<a target="_blank" href="https://adum.fr/as/ed/detailResp.pl?resp=' . $member["matricule"] . '">' . $member["prenom"] . ' ' . $member["nom"] . '</a> ';
         echo "</li>";
@@ -688,6 +723,9 @@ class Controller extends BlockController
     /*Incoming defense*/
     private function load_phd_defense_by_ed()
     {
+
+        
+
         $students = $this->retrieve_json("inscrits", $this->year);
 
         $students = $students["data"][0];
