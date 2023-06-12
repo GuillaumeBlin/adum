@@ -17,6 +17,7 @@ class Controller extends BlockController
     protected $btDefaultSet = 'basic';
     protected $jsonFiles = array(
         "inscrits"  => "/../../files/datas_adum/ubx_inscrits.json",
+        "formations"  => "/../../files/datas_adum/ubx_formations.json",
         "responsables" => "/../../files/datas_adum/ubx_responsables.json",
         "sujets" => "/../../files/datas_adum/ubx_sujets.json",
         "structures"   => "/../../files/datas_adum/ubx_structures.json"
