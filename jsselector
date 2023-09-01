@@ -101,11 +101,13 @@
         });
         $('#adum_modal .en').hide();
         $('#adum_modal .fr').show();
-        if (!Cookies.get("ub-filter-adum")) {
-            displayFilters();
-        } else {
-            filterInfoByClass();
-        }
+        when('Cookies', function (Cookies) {
+            if (!Cookies.get("ub-filter-adum")) {
+                displayFilters();
+            } else {
+                filterInfoByClass();
+            }
+        });
 
     });
 </script>
