@@ -93,47 +93,7 @@ class Controller extends BlockController
     /* DISPLAY functions */
 
     private function display_training($modT) {
-        $useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.89 Safari/537.36';
-        $timeout= 10;
-        $dir            = dirname(__FILE__);
-        $cookie_file    = $dir . '/'.$modT.'.txt';
-    
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($curl, CURLOPT_URL, "https://adum.fr/script/formations.pl?mod=".$modT."&site=UBX");
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
-        curl_setopt($curl, CURLOPT_HEADER, false);
-        curl_setopt($curl, CURLOPT_COOKIEFILE, $cookie_file);
-        curl_setopt($curl, CURLOPT_COOKIEJAR, $cookie_file);
-        curl_setopt($curl, CURLOPT_USERAGENT, $useragent);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Content-Type: text/html'
-        ));
-        $content = curl_exec($curl);
-        curl_close($curl);
-        if (preg_match('/(<table.*?table>)/ms', $content, $match) == 1) {
-            $content = $match[1];
-            if (preg_match('/(<h2.*?h2>)/ms', $content, $match) == 1) {
-                $title = $match[1];
-            }
-            $content=preg_replace('/<tr.*?tr>/ms', "", $content,1);
-
-            echo '<section class="block-collapsable">';
-            echo '<header class="block-collapsable-header">';
-			echo '<h1 class="block-collapsable-title">'.utf8_encode($title).'</h1>';
-			echo '<button class="block-collapsable-toggler" type="button" aria-controls="block-collapsable-body-'.$modT.'" aria-expanded="false" aria-label="Afficher / cacher cette section"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">';
-            echo '<path d="M21.6 11.333l-5.6 5.6-5.6-5.6-1.867 1.867 7.467 7.467 7.467-7.467z"></path>';
-			echo '</svg></button>';
-			echo '</header>';
-			echo '<div id="block-collapsable-body-'.$modT.'" class="block-collapsable-body" style="">';
-			echo '<div class="block-collapsable-body-inner">';
-            echo utf8_encode($content);
-            echo '</div>';
-            echo '</div>';
-            echo '</section>';            
-        }
+        echo "<li><a href='https://adum.fr/script/formations.pl?mod=".$modT['mod']."&site=UBX'>".$modT['libelle']."</a> - ".$modT['date_debut']."</li>";
     }
 
     private function display_member_annu($member)
@@ -832,24 +792,11 @@ class Controller extends BlockController
     {        
         $trainings = $this->retrieve_json("formations", $this->year);
 
-        $trainings = $trainings["data"];
-        
-        $ntrainings=array();
-        foreach ($trainings as &$value) {
-            $i = count($value["ED_code"]);
-            if ($i == 0) {
-                unset($value);
-                continue;
-            }
-            $eds = array_replace([], $value["ED_code"]);
-            foreach ($eds as $ed) {
-                $value["ED_code"] = $ed;
-                array_push($ntrainings, $value);
-            }                        
-        }
+        $ntrainings = $trainings["data"];
+
         usort($ntrainings, array($this, 'trainings_sorter'));
 
-        $trainingsbyGroup = $this->group_by("ED_code", $trainings);
+        $trainingsbyGroup = $this->group_by("ED_code", $ntrainings);
 
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
 
