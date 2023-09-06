@@ -93,6 +93,7 @@ class Controller extends BlockController
     /* DISPLAY functions */
 
     private function display_training($modT) {
+        var_dump($modT);
         echo "<li><a href='https://adum.fr/script/formations.pl?mod=".$modT['mod']."&site=UBX'>".$modT['libelle']."</a> - ".$modT['date_debut']."</li>";
     }
 
@@ -842,7 +843,7 @@ class Controller extends BlockController
                         }
                         echo "<ul>";*/
                         foreach ($valueByED as $training) {
-                            $this->display_training($training["mod"]);
+                            $this->display_training($training);
                         }
                         //echo "</ul>";
                     //}
