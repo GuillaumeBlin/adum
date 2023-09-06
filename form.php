@@ -1,7 +1,7 @@
 <?php defined('C5_EXECUTE') or die(_("Access Denied."));
 
 $parsing_types = array("doctors_of_the_year" => "Docteur.e.s de l'année en cours", "phd_proposal" => "Propositions de sujets de thèse", "annu" => "Annuaire des doctorant.e.s", "phd_defense_by_ed" => "Soutenances à venir", "members_annu" => "Annuaire des encadrant.e.s", "training_by_ed" => "Formations");
-$codes = array("41" => "ED Droit", "42" => "ED Entreprise Economie Société", "40" => "ED Sciences Chimiques", "154" => "ED Sciences de la Vie et de la Santé", "304" => "ED Sciences et environnements", "209" => "ED Sciences Physiques et de l'Ingénieur", "545" => "ED Sociétés, Politique, Santé Publique", "39" => "ED Mathématiques et Informatique");
+$codes = array(""=>"CED","41" => "ED Droit", "42" => "ED Entreprise Economie Société", "40" => "ED Sciences Chimiques", "154" => "ED Sciences de la Vie et de la Santé", "304" => "ED Sciences et environnements", "209" => "ED Sciences Physiques et de l'Ingénieur", "545" => "ED Sociétés, Politique, Santé Publique", "39" => "ED Mathématiques et Informatique");
 ?>
 
 
@@ -15,7 +15,7 @@ $codes = array("41" => "ED Droit", "42" => "ED Entreprise Economie Société", "
 <br/>
 	<label class="control-label" for="filter">Filtre <sup class="fas fa-asterisk"></sup></label>
 	<select name="filter" class="ccm-input-select">
-		<option value="">Aucun</option>
+		<option value="-1">Aucun</option>
 		<?php foreach ($codes as $key => $opt) { ?>
 			<option value="<?php echo $key; ?>" <?php if (strcmp($filter, $key) === 0) { ?>selected<?php } ?>> <?php echo $opt; ?></option>
 		<?php } ?>
