@@ -15,7 +15,7 @@ $codes = array(""=>"CED","41" => "ED Droit", "42" => "ED Entreprise Economie Soc
 <br/>
 	<label class="control-label" for="filter">Filtre <sup class="fas fa-asterisk"></sup></label>
 	<select name="filter" class="ccm-input-select">
-		<option value="-1">Aucun</option>
+		<option value="-1">Aucun</option> 
 		<?php foreach ($codes as $key => $opt) { ?>
 			<option value="<?php echo $key; ?>" <?php if (strcmp($filter, $key) === 0) { ?>selected<?php } ?>> <?php echo $opt; ?></option>
 		<?php } ?>
