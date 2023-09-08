@@ -453,7 +453,7 @@ class Controller extends BlockController
 
         usort($students, array($this, 'students_sorter'));
         $students = array_filter($students, function ($student) {
-            return $student["these_date_soutenance"] != "" && date_parse($student["these_date_soutenance"])["year"] == $this->year &&  time() > strtotime($student["these_date_soutenance"]);
+            return $student["these_date_soutenance"] != "" && (date_parse($student["these_date_soutenance"])["year"] == $this->year || date_parse($student["these_date_soutenance"])["year"] == $this->year+1) &&  time() > strtotime($student["these_date_soutenance"]);
         });
 
         $byGroup = $this->group_by("these_ED_code", $students);
