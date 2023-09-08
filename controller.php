@@ -431,6 +431,7 @@ class Controller extends BlockController
     private function load_doctors_of_the_year()
     {
         $students = $this->retrieve_json("inscrits", $this->year);
+        echo 'Last error: ', json_last_error_msg(), PHP_EOL, PHP_EOL;
 
         $students = $students["data"][0];
         foreach ($students as &$value) {
