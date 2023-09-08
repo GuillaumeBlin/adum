@@ -59,11 +59,15 @@ class Controller extends BlockController
 
     private function retrieve_json($type, $year)
     {
-        if ($type == "inscrits") {
-            return json_decode(file_get_contents(realpath(dirname(__FILE__)) . str_replace(".json", "_" . $year . ".json", $this->jsonFiles[$type])), true);
+        $res="";
+        while(!(is_array($res))){
+            if ($type == "inscrits") {
+                $res=json_decode(file_get_contents(realpath(dirname(__FILE__)) . str_replace(".json", "_" . $year . ".json", $this->jsonFiles[$type])), true);
+            }else{
+                $res=json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles[$type]), true);
+            }
         }
-
-        return json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles[$type]), true);
+        return $res;
     }
 
     
@@ -431,8 +435,8 @@ class Controller extends BlockController
     private function load_doctors_of_the_year()
     {
         $students = $this->retrieve_json("inscrits", $this->year);
-        echo 'Last error: ', json_last_error_msg(), PHP_EOL, PHP_EOL;
-
+        
+        
         $students = $students["data"][0];
         foreach ($students as &$value) {
             $value = $this->array_extract($value, [
