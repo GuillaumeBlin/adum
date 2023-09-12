@@ -434,10 +434,21 @@ class Controller extends BlockController
 
     private function load_doctors_of_the_year()
     {
-        $students = $this->retrieve_json("inscrits", $this->year);
+        $students1 = $this->retrieve_json("inscrits", $this->year);
+        $students2 = $this->retrieve_json("inscrits", $this->year+1);
+        if(!is_array($students1)){
+            if (strcmp($this->langage, "FR") == 0) {
+                echo "Pas de docteur.e. encore cette année pour cette école doctorale.";
+            } else {
+                echo "No doctors yet this year for this doctoral school.";
+            }
+            return;
+        }
+        $students = $students1["data"][0];
+        if(is_array($students2)){
+            $students=array_replace($students1["data"][0],$students2["data"][0] );
+        }
         
-        
-        $students = $students["data"][0];
         foreach ($students as &$value) {
             $value = $this->array_extract($value, [
                 "Matricule_etudiant",
