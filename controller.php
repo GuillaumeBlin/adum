@@ -251,6 +251,11 @@ class Controller extends BlockController
         return [$a['these_ED_code'], $a['these_specialite'], $a['nom']] <=> [$b['these_ED_code'], $b['these_specialite'], $b['nom']];
     }
 
+    private function defense_sorter(array $a, array $b)
+    {
+        return [$a['these_ED_code'], $a['these_specialite'], $a['these_date_soutenance'],$a['nom']] <=> [$b['these_ED_code'], $b['these_specialite'], $b['these_date_soutenance'],$b['nom']];
+    }
+
     private function members_sorter(array $a, array $b)
     {
         return [$a['ED_code'], $a['nom'], $a['prenom']] <=> [$b['ED_code'], $b['nom'], $b['prenom']];
@@ -455,7 +460,7 @@ class Controller extends BlockController
             ]);
         }
 
-        usort($students, array($this, 'students_sorter'));
+        usort($students, array($this, 'defense_sorter'));
         $students = array_filter($students, function ($student) {
             return $student["these_date_soutenance"] != "" && strtotime($student["these_date_soutenance"]) < strtotime("31-12-".($this->year+1)) &&  time() > strtotime($student["these_date_soutenance"]);
         });
