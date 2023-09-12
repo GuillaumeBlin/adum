@@ -253,7 +253,7 @@ class Controller extends BlockController
 
     private function defense_sorter(array $a, array $b)
     {
-        return [$a['these_ED_code'], $a['these_specialite'], $a['these_date_soutenance'],$a['nom']] <=> [$b['these_ED_code'], $b['these_specialite'], $b['these_date_soutenance'],$b['nom']];
+        return [$a['these_ED_code'], $a['these_specialite'], strtotime($a['these_date_soutenance']),$a['nom']] <=> [$b['these_ED_code'], strtotime($b['these_specialite']), $b['these_date_soutenance'],$b['nom']];
     }
 
     private function members_sorter(array $a, array $b)
