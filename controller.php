@@ -460,10 +460,11 @@ class Controller extends BlockController
             ]);
         }
 
-        usort($students, array($this, 'defense_sorter'));
         $students = array_filter($students, function ($student) {
             return $student["these_date_soutenance"] != "" && strtotime($student["these_date_soutenance"]) < strtotime("31-12-".($this->year+1)) &&  time() > strtotime($student["these_date_soutenance"]);
         });
+        usort($students, array($this, 'defense_sorter'));
+        
 
         $byGroup = $this->group_by("these_ED_code", $students);
         foreach ($byGroup as &$valueByED) {
