@@ -716,7 +716,7 @@ class Controller extends BlockController
 
         
 
-        $students = $this->retrieve_json("inscrits", $this->year);
+        $students = $this->retrieve_json("soutenances", $this->year);
 
         $students = $students["data"][0];
         foreach ($students as &$value) {
@@ -738,7 +738,7 @@ class Controller extends BlockController
         }
 
         $students = array_filter($students, function ($student) {
-            return $student["these_date_soutenance"] != "" && strtotime($student["these_date_soutenance"]) < strtotime("31-12-".($this->year+1)) && time() <= strtotime($student["these_date_soutenance"]);
+            return $student["these_date_soutenance"] != "" && time() <= strtotime($student["these_date_soutenance"]);
         });
 
         usort($students, array($this, 'defense_sorter'));
