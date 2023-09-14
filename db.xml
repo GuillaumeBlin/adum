@@ -12,7 +12,7 @@
 			<default value="" />
 		</field>		
 		<field name="parsing" type="text">
-			<default value="" />
+			<default value="-1" />
 		</field>
 
 		<field name="year" type="integer">
