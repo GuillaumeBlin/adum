@@ -41,17 +41,13 @@ $year_needed = array("doctors_of_the_year", "annu");
 </div>
 
 <script>
-	function updateForm(){
-		var disabled = ($("#parsing").val() != "doctors_of_the_year" && $("#parsing").val() != "annu");
-    	$("#year").prop("disabled", disabled);
-		$('#filter option[value=""]').prop("disabled", true);
-		if ($("#parsing").val()=="training_by_ed"){
-			$('#filter option[value=""]').prop("disabled", false);
-		}
-	}
 $("#parsing").change(function() {
     $('#filter option[value="-1"]').prop("selected", true);
-	updateForm();
+	var disabled = (this.value != "doctors_of_the_year" && this.value != "annu");
+    	$("#year").prop("disabled", disabled);
+		$('#filter option[value=""]').prop("disabled", true);
+		if (this.value=="training_by_ed"){
+			$('#filter option[value=""]').prop("disabled", false);
+		}
 });
-updateForm();
 </script>
