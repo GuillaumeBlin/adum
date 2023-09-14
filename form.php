@@ -1,6 +1,6 @@
 <?php defined('C5_EXECUTE') or die(_("Access Denied."));
 
-$parsing_types = array("doctors_of_the_year" => "Docteur.e.s de l'année en cours", "phd_proposal" => "Propositions de sujets de thèse", "annu" => "Annuaire des doctorant.e.s", "phd_defense_by_ed" => "Soutenances à venir", "members_annu" => "Annuaire des encadrant.e.s", "training_by_ed" => "Formations");
+$parsing_types = array("doctors_of_the_year" => "Docteur.e.s d'une année", "phd_proposal" => "Propositions de sujets de thèses", "annu" => "Annuaire des doctorant.e.s d'une année", "phd_defense_by_ed" => "Soutenances à venir", "members_annu" => "Annuaire des encadrant.e.s", "training_by_ed" => "Formations");
 $codes = array(""=>"CED","41" => "ED Droit", "42" => "ED Entreprise Economie Société", "40" => "ED Sciences Chimiques", "154" => "ED Sciences de la Vie et de la Santé", "304" => "ED Sciences et environnements", "209" => "ED Sciences Physiques et de l'Ingénieur", "545" => "ED Sociétés, Politique, Santé Publique", "39" => "ED Mathématiques et Informatique");
 $year_needed = array("doctors_of_the_year", "annu");
 ?>
@@ -15,7 +15,7 @@ $year_needed = array("doctors_of_the_year", "annu");
 	</select>
 <br/>
 	<label class="control-label" for="filter">Filtre <sup class="fas fa-asterisk"></sup></label>
-	<select name="filter" class="ccm-input-select">
+	<select id="filter" name="filter" class="ccm-input-select">
 		<option value="-1">Aucun</option> 
 		<?php foreach ($codes as $key => $opt) { ?>
 			<option value="<?php echo $key; ?>" <?php if (strcmp($filter, $key) === 0) { ?>selected<?php } ?>> <?php echo $opt; ?></option>
@@ -44,5 +44,9 @@ $year_needed = array("doctors_of_the_year", "annu");
 $("#parsing").change(function() {
     var disabled = (this.value != "doctors_of_the_year" && this.value != "annu");
     $("#year").prop("disabled", disabled);
+	$('#filter option[value=""]').prop("disabled", false);
+	if (this.value=="training_by_ed"){
+		$('#filter option[value=""]').prop("disabled", false);
+	}
 }).change(); //to trigger on load
 </script>
