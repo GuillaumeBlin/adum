@@ -17,6 +17,7 @@ class Controller extends BlockController
     protected $btDefaultSet = 'basic';
     protected $jsonFiles = array(
         "inscrits"  => "/../../files/datas_adum/ubx_inscrits.json",
+        "soutenances"  => "/../../files/datas_adum/ubx_soutenances.json",
         "formations"  => "/../../files/datas_adum/ubx_formations.json",
         "responsables" => "/../../files/datas_adum/ubx_responsables.json",
         "sujets" => "/../../files/datas_adum/ubx_sujets.json",
@@ -61,7 +62,7 @@ class Controller extends BlockController
     {
         $res="";
         while(!(is_array($res))){
-            if ($type == "inscrits") {
+            if (($type == "inscrits") || ($type=="soutenances")) {
                 $res=json_decode(file_get_contents(realpath(dirname(__FILE__)) . str_replace(".json", "_" . $year . ".json", $this->jsonFiles[$type])), true);
             }else{
                 $res=json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles[$type]), true);
@@ -439,7 +440,7 @@ class Controller extends BlockController
 
     private function load_doctors_of_the_year()
     {
-        $students = $this->retrieve_json("inscrits", $this->year);
+        $students = $this->retrieve_json("soutenances", $this->year);
         $students = $students["data"][0];
         
         foreach ($students as &$value) {
@@ -461,7 +462,7 @@ class Controller extends BlockController
         }
 
         $students = array_filter($students, function ($student) {
-            return $student["these_date_soutenance"] != "" && strtotime($student["these_date_soutenance"]) < strtotime("31-12-".($this->year+1)) &&  time() > strtotime($student["these_date_soutenance"]);
+            return $student["these_date_soutenance"] != "" && time() > strtotime($student["these_date_soutenance"]);
         });
         usort($students, array($this, 'defense_sorter'));
         
@@ -713,11 +714,10 @@ class Controller extends BlockController
     /*Incoming defense*/
     private function load_phd_defense_by_ed()
     {
-
-        
-
         $students = $this->retrieve_json("soutenances", $this->year);
 
+//        echo "<pre>" . var_export($students, true) . "</pre>";
+//       return;
         $students = $students["data"][0];
         foreach ($students as &$value) {
             $value = $this->array_extract($value, [
@@ -737,8 +737,7 @@ class Controller extends BlockController
             ]);
         }
 
-        echo "<pre>" . var_export($students, true) . "</pre>";
-        return;
+        
         $students = array_filter($students, function ($student) {
             return time() <= strtotime($student["these_date_soutenance"]);
         });
