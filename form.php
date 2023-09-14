@@ -44,7 +44,7 @@ $year_needed = array("doctors_of_the_year", "annu");
 $("#parsing").change(function() {
     var disabled = (this.value != "doctors_of_the_year" && this.value != "annu");
     $("#year").prop("disabled", disabled);
-	$('#filter option[value=""]').prop("disabled", false);
+	$('#filter option[value=""]').prop("disabled", true);
 	if (this.value=="training_by_ed"){
 		$('#filter option[value=""]').prop("disabled", false);
 	}
