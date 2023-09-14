@@ -42,10 +42,10 @@ $year_needed = array("doctors_of_the_year", "annu");
 
 <script>
 	function updateForm(){
-		var disabled = ($("#parsing option: selected").value != "doctors_of_the_year" && $("#parsing option: selected").value != "annu");
+		var disabled = ($("#parsing option:selected").value != "doctors_of_the_year" && $("#parsing option:selected").value != "annu");
     	$("#year").prop("disabled", disabled);
 		$('#filter option[value=""]').prop("disabled", true);
-		if ($("#parsing option: selected").value=="training_by_ed"){
+		if ($("#parsing option:selected").value=="training_by_ed"){
 			$('#filter option[value=""]').prop("disabled", false);
 		}
 	}
