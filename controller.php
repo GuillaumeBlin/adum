@@ -737,6 +737,7 @@ class Controller extends BlockController
             ]);
         }
 
+        echo "<pre>" . var_export($students, true) . "</pre>";
         $students = array_filter($students, function ($student) {
             return time() <= strtotime($student["these_date_soutenance"]);
         });
