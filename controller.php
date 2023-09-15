@@ -714,7 +714,7 @@ class Controller extends BlockController
     /*Incoming defense*/
     private function load_phd_defense_by_ed()
     {
-        $students = $this->retrieve_json("soutenances", $this->year);
+        $students = $this->retrieve_json("soutenances", date("Y"));
 
 //        echo "<pre>" . var_export($students, true) . "</pre>";
 //       return;
