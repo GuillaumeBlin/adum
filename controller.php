@@ -729,7 +729,7 @@ class Controller extends BlockController
             // évènement pas dans le menu
             $page->setAttribute('exclude_nav', true);
             $page->setAttribute('date_debut',  $date . ' 00:00:00');
-            $page->setAttribute('thumbnail', 21);
+            $page->setAttribute('thumbnail', 174);
             $page->setAttribute('lieu',  $place);
             $page->setAttribute('date_fin',  $date . ' 23:59:59');
     
@@ -794,7 +794,7 @@ function get_show_key_numbers($datas)
     if ($cpt % 4 != 0) {
         $res.='</ul></div>';
     }
-    $res.='<script>';
+    /*$res.='<script>';
     $res.='jQuery(function($) {';
     $res .= "var \$countup = \$('.countup');\n";
     $res .= "\$.when('countup', function() {\n";
@@ -832,7 +832,7 @@ function get_show_key_numbers($datas)
     $res .= '}';
     $res .= '});';
     $res .= '});';
-    $res .= '</script>';
+    $res .= '</script>';*/
     return $res;
 }
     /*Incoming defense*/
