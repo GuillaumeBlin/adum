@@ -729,7 +729,7 @@ class Controller extends BlockController
                 'cHandle ' => $url,
                 );
             if (strcmp($lang, "FR") == 0) {
-                $obligatoires_page["cName"]='Soutenances du '.$date,
+                $obligatoires_page["cName"]='Soutenances du '.$date;
             }else{
                 $obligatoires_page["cName"]='PhdDefense on '.$date;
             }
