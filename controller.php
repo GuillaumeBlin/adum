@@ -713,18 +713,26 @@ class Controller extends BlockController
     }
 
 
-    function addEvent($date, $desc, $place, $details){
-        $parentPage =  Page::getByPath('/evenements');
+    function addEvent($date, $desc, $place, $details,$lang){
+        if (strcmp($lang, "FR") == 0) {
+            $parentPage =  Page::getByPath('/evenements');
+        }else{
+            $parentPage =  Page::getByPath('/events');
+        }
         if (is_object($parentPage)) {
             $pageType = \PageType::getByHandle('evenement');
-            $template = \PageTemplate::getByHandle('evenement');
-            $url = 'sout_adum_'.$date;
+                $template = \PageTemplate::getByHandle('evenement');
+            $url = 'sout_adum_'.$lang.'_'.$date;
             //champs obligatoires pour page
             $obligatoires_page = array(
-                'cName' => 'Soutenances du '.$date,
                 'cDescription' => $desc,
                 'cHandle ' => $url,
-            );
+                );
+            if (strcmp($lang, "FR") == 0) {
+                $obligatoires_page["cName"]='Soutenances du '.$date,
+            }else{
+                $obligatoires_page["cName"]='PhdDefense on '.$date;
+            }
             $page = $parentPage->add($pageType, $obligatoires_page, $template);
             // évènement pas dans le menu
             $page->setAttribute('exclude_nav', true);
@@ -741,11 +749,11 @@ class Controller extends BlockController
         }
     }
 
-        function get_display_defense_to_come($defense)
+        function get_display_defense_to_come($defense,$lang)
 {
 
     $res= "<li>";
-    if (strcmp($this->langage, "FR") == 0) {
+    if (strcmp($lang, "FR") == 0) {
         $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre"] . '</a> ';
         $res.="par ";
         $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
@@ -775,11 +783,9 @@ function get_show_key_numbers($datas)
     $cpt = 0;
     $res="";
     foreach ($datas as $key => $value) {
-        $value . '</strong>';
-        $res.=$value." ".$key . '\n';
-        
+        $res.=$value." ".$key . ' - ';   
     }
-    return $res;
+    return substr($res,0,-3);
 }
     /*Incoming defense*/
     private function load_phd_defense_by_ed()
@@ -910,37 +916,38 @@ function get_show_key_numbers($datas)
 
         foreach ($byGroup as $keyByDate => $valueByDate) {
                                             
-            $datas = array();
+            $datas_fr = array();
+            $datas_en = array();
             foreach ($valueByDate as $keyByED => $valueByED) {
                 $i = count($valueByED);
                 if ($i > 1) {
-                    if (strcmp($this->langage, "FR") == 0) {
-                        $datas["Soutenances à " . $codes[$keyByED]] = $i;
-                    } else {
-                        $datas["PhD defenses from " . $codes[$keyByED]] = $i;
-                    }
+                    $datas_fr["Soutenances à " . $codes[$keyByED]] = $i;
+                    $datas_en["PhD defenses from " . $codes[$keyByED]] = $i;
+                    
                 } else {
-                    if (strcmp($this->langage, "FR") == 0) {
-                        $datas["Soutenance à " . $codes[$keyByED]] = $i;
-                    } else {
-                        $datas["PhD defense from " . $codes[$keyByED]] = $i;
-                    }
+                    $datas_fr["Soutenance à " . $codes[$keyByED]] = $i;
+                    $datas_en["PhD defense from " . $codes[$keyByED]] = $i;
                 }
             }
-            $desc=$this->get_show_key_numbers($datas); //ICI
-            $details="";
+            $desc_fr=$this->get_show_key_numbers($datas_fr); //ICI
+            $desc_en=$this->get_show_key_numbers($datas_en); //ICI
+            $details_fr="";
+            $details_en="";
             foreach ($valueByDate as $keyByED => $valueByED) {
-                $details.="<h4>" . $codes[$keyByED] . "</h4>";
-                $details.="<ul>";
+                $details_fr.="<h4>" . $codes[$keyByED] . "</h4>";
+                $details_en.="<h4>" . $codes[$keyByED] . "</h4>";
+                $details_fr.="<ul>";
+                $details_en.="<ul>";
                     foreach ($valueByED as $student) {
-                        $details.=$this->get_display_defense_to_come($student);//ICI
+                        $details_fr.=$this->get_display_defense_to_come($student,"FR");//ICI
+                        $details_en.=$this->get_display_defense_to_come($student,"EN");//ICI
                     }
-                    $details.="</ul>";
-                
-                    
+                    $details_fr.="</ul>";
+                    $details_en.="</ul>";                                    
                 }
                 $place="Université de Bordeaux";
-            $this->addEvent($keyByDate, $desc, $place, $details);
+            $this->addEvent($keyByDate, $desc_fr, $place, $details_fr,"FR");
+            $this->addEvent($keyByDate, $desc_en, $place, $details_en,"EN");
         }
     }
 
