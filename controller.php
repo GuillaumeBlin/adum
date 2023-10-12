@@ -769,6 +769,72 @@ class Controller extends BlockController
     $res.="</li>";
     return $res;
 }
+
+function get_show_key_numbers($datas)
+{
+    $cpt = 0;
+    $res="";
+    foreach ($datas as $key => $value) {
+        if ($cpt % 4 == 0) {
+            $res.='<div class="home-key-numbers-inner">';
+            $res.='<ul>';
+        }
+        $cpt = $cpt + 1;
+        $res.='<li>';
+        $res.='<div class="home-key-numbers-item">';
+        $res.='<strong class="home-key-numbers-item-number countup" data-value="' . $value . '">' . $value . '</strong>';
+        $res.='<p class="home-key-numbers-item-title">' . $key . '</p>';
+        $res.='<p class="home-key-numbers-item-subtitle"></p>';
+        $res.='</div>';
+        $res.='</li>';
+        if ($cpt % 4 == 0) {
+            $res.='</ul></div>';
+        }
+    }
+    if ($cpt % 4 != 0) {
+        $res.='</ul></div>';
+    }
+    $res.='<script>';
+    $res.='jQuery(function($) {';
+    $res .= "var \$countup = \$('.countup');\n";
+    $res .= "\$.when('countup', function() {\n";
+    $res .= 'var processItem = function(elt) {';
+    $res .= 'var $this = $(elt),';
+    $res .= "countUp = new CountUp(elt, parseInt(\$this.attr('data-value')), {\n";
+    $res .= 'duration: 1.5,';
+    $res .= "separator: ' '\n";
+    $res .= '});';
+    $res .= 'if (!countUp.error) {';
+    $res .= 'countUp.start();';
+    $res .= '}';
+    $res .= '};';
+    $res .= "if (!('IntersectionObserver' in window)) {\n";
+    $res .= '$countup.each(function() {';
+    $res .= 'processItem(this);';
+    $res .= '});';
+    $res .= '} else {';
+    $res .= 'var observer = new IntersectionObserver(function(entries) {';
+    $res .= 'entries.forEach(function(entry) {';
+    $res .= 'if (entry.isIntersecting) {';
+    $res .= 'if (observer) {';
+    $res .= 'observer.unobserve(entry.target);';
+    $res .= '}';
+    $res .= 'processItem(entry.target);';
+    $res .= '}';
+    $res .= '});';
+    $res .= '}, {';
+    $res .= "rootMargin: '10px 0px',\n";
+    $res .= 'threshold: 0.01';
+    $res .= '});';
+    $res .= '$countup.each(function() {';
+    $res .= 'observer.observe(this);';
+    $res .= '});';
+    $res .= '}';
+    $res .= '});';
+    $res .= '});';
+    $res .= '</script>';
+    return $res;
+}
     /*Incoming defense*/
     private function load_phd_defense_by_ed()
     {
@@ -858,6 +924,7 @@ class Controller extends BlockController
                 }
             }
         }*/
+        $codes = array("" => "Collège des Ecoles Doctorales", "41" => "ED Droit", "42" => "ED Entreprise Economie Société", "40" => "ED Sciences Chimiques", "154" => "ED Sciences de la Vie et de la Santé", "304" => "ED Sciences et environnements", "209" => "ED Sciences Physiques et de l'Ingénieur", "545" => "ED Sociétés, Politique, Santé Publique", "39" => "ED Mathématiques et Informatique");
         $students = "";
     while (!(is_array($students))) {
         $students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . "/../../files/datas_adum/ubx_soutenances.json"), true);
@@ -866,7 +933,7 @@ class Controller extends BlockController
     //       return;
     $students = $students["data"][0];
     foreach ($students as &$value) {
-        $value = array_extract($value, [
+        $value = $this->array_extract($value, [ //ICI
             "Matricule_etudiant",
             "nom",
             "prenom",
@@ -889,9 +956,9 @@ class Controller extends BlockController
 
     usort($students, 'defense_sorter');
 
-    $byGroup = group_by("these_date_soutenance", $students);
+    $byGroup = $this->group_by("these_date_soutenance", $students);//ICI
     foreach ($byGroup as &$valueByDate) {
-        $valueByDate = group_by("these_ED_code", $valueByDate);
+        $valueByDate = $this->group_by("these_ED_code", $valueByDate);//ICI
     }
     //echo "<pre>" . var_export($byGroup, true) . "</pre>";
 
@@ -914,19 +981,20 @@ class Controller extends BlockController
                     }
                 }
             }
-            $desc=show_key_numbers($datas);
+            $desc=$this->get_show_key_numbers($datas); //ICI
             $details="";
             foreach ($valueByDate as $keyByED => $valueByED) {
                 $details.="<h4>" . $codes[$keyByED] . "</h4>";
                 $details.="<ul>";
                     foreach ($valueByED as $student) {
-                        $details.=get_display_defense_to_come($student);
+                        $details.=$this->get_display_defense_to_come($student);//ICI
                     }
                     $details.="</ul>";
                 
                     
                 }
-            addEvent($keyByDate, $desc, $place, $details);
+                $place="Université de Bordeaux";
+            $this->addEvent($keyByDate, $desc, $place, $details);
         }
     }
 
