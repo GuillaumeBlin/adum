@@ -748,7 +748,7 @@ class Controller extends BlockController
         $res.="par ";
         $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
         $res.=" (" . $defense["these_laboratoire"] . ") ";
-        $res.='à soutenir le ', $defense["these_date_soutenance"];
+        $res.='à soutenir le '. $defense["these_date_soutenance"];
         $res.=' sous la direction de ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
         if ($defense["these_codirecteur_these_nom"] != "") {
             $res.=' et ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
@@ -758,7 +758,7 @@ class Controller extends BlockController
         $res.='by ';
         $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
         $res.=" (" . $defense["these_laboratoire"] . ") ";
-        $res.='to be defend on ', $defense["these_date_soutenance"];
+        $res.='to be defend on '. $defense["these_date_soutenance"];
         $res.=' under the supervision of ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
         if ($defense["these_codirecteur_these_nom"] != "") {
             $res.=' and ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
