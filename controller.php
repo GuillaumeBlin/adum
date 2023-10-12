@@ -713,7 +713,60 @@ class Controller extends BlockController
     }
 
 
+    function addEvent($date, $desc, $place, $details){
+        $parentPage =  Page::getByPath('/evenements');
+        if (is_object($parentPage)) {
+            $pageType = \PageType::getByHandle('evenement');
+            $template = \PageTemplate::getByHandle('evenement');
+            $url = 'sout_adum_'.$date;
+            //champs obligatoires pour page
+            $obligatoires_page = array(
+                'cName' => 'Soutenances du '.$date,
+                'cDescription' => $desc,
+                'cHandle ' => $url,
+            );
+            $page = $parentPage->add($pageType, $obligatoires_page, $template);
+            // évènement pas dans le menu
+            $page->setAttribute('exclude_nav', true);
+            $page->setAttribute('date_debut',  $date . ' 00:00:00');
+            $page->setAttribute('thumbnail', 21);
+            $page->setAttribute('lieu',  $place);
+            $page->setAttribute('date_fin',  $date . ' 23:59:59');
+    
+            $block = BlockType::getByHandle('html');
+            $data = array(
+                'content' => $details
+            );
+            $page->addBlock($block, 'Main', $data);
+        }
+        function get_display_defense_to_come($defense)
+{
 
+    $res= "<li>";
+    if (strcmp($this->langage, "FR") == 0) {
+        $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre"] . '</a> ';
+        $res.="par ";
+        $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+        $res.=" (" . $defense["these_laboratoire"] . ") ";
+        $res.='à soutenir le ', $defense["these_date_soutenance"];
+        $res.=' sous la direction de ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+        if ($defense["these_codirecteur_these_nom"] != "") {
+            $res.=' et ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+        }
+    } else {
+        $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre_anglais"] . '</a> ';
+        $res.='by ';
+        $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+        $res.=" (" . $defense["these_laboratoire"] . ") ";
+        $res.='to be defend on ', $defense["these_date_soutenance"];
+        $res.=' under the supervision of ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+        if ($defense["these_codirecteur_these_nom"] != "") {
+            $res.=' and ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+        }
+    }
+    $res.="</li>";
+    return $res;
+}
     /*Incoming defense*/
     private function load_phd_defense_by_ed()
     {
@@ -803,33 +856,76 @@ class Controller extends BlockController
                 }
             }
         }*/
-        $parentPage =  Page::getByPath('/evenements');
+        $students = "";
+    while (!(is_array($students))) {
+        $students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . "/../../files/datas_adum/ubx_soutenances.json"), true);
+    }
+    //        echo "<pre>" . var_export($students, true) . "</pre>";
+    //       return;
+    $students = $students["data"][0];
+    foreach ($students as &$value) {
+        $value = array_extract($value, [
+            "Matricule_etudiant",
+            "nom",
+            "prenom",
+            "these_ED_code",
+            "these_codirecteur_these_nom",
+            "these_codirecteur_these_prenom",
+            "these_date_soutenance",
+            "these_directeur_these_nom",
+            "these_directeur_these_prenom",
+            "these_laboratoire",
+            "these_specialite",
+            "these_titre",
+            "these_titre_anglais"
+        ]);
+    }
 
-if (is_object($parentPage)) {
-    $pageType = \PageType::getByHandle('evenement');
-    $template = \PageTemplate::getByHandle('evenement');
-    $url = 'sout_adum_6543';
-    //champs obligatoires pour page
-    $obligatoires_page=array(
-        'cName' => 'Thèse Guillaume Blin',
-        'cDescription' => 'Ma description d la thèse',
-        'cHandle ' => $url,
-    );
-    $optionnels_page=array('date_fin' => '2023-10-30');
-    $page = $parentPage->add($pageType, $obligatoires_page, $template);
-    // évènement pas dans le menu
-     $page->setAttribute('exclude_nav', true);
-     $page->setAttribute('date_debut',  $optionnels_page['date_fin'].' 00:00:00');
-     $page->setAttribute('thumbnail', 21);
-    $page->setAttribute('lieu',  'Ici ou ailleurs');
-    $page->setAttribute('date_fin',  $optionnels_page['date_fin'].' 23:59:59');
+    $students = array_filter($students, function ($student) {
+        return time() <= strtotime($student["these_date_soutenance"]);
+    });
 
-    $block = BlockType::getByHandle('html');
-    $data = array(
-        'content' => '<strong>Juste </strong>un test...'
-    );
-    $page->addBlock($block, 'Main', $data);
-}
+    usort($students, 'defense_sorter');
+
+    $byGroup = group_by("these_date_soutenance", $students);
+    foreach ($byGroup as &$valueByDate) {
+        $valueByDate = group_by("these_ED_code", $valueByDate);
+    }
+    //echo "<pre>" . var_export($byGroup, true) . "</pre>";
+
+        foreach ($byGroup as $keyByDate => $valueByDate) {
+                                            
+            $datas = array();
+            foreach ($valueByDate as $keyByED => $valueByED) {
+                $i = count($valueByED);
+                if ($i > 1) {
+                    if (strcmp($this->langage, "FR") == 0) {
+                        $datas["Soutenances à " . $codes[$keyByED]] = $i;
+                    } else {
+                        $datas["PhD defenses from " . $codes[$keyByED]] = $i;
+                    }
+                } else {
+                    if (strcmp($this->langage, "FR") == 0) {
+                        $datas["Soutenance à " . $codes[$keyByED]] = $i;
+                    } else {
+                        $datas["PhD defense from " . $codes[$keyByED]] = $i;
+                    }
+                }
+            }
+            $desc=show_key_numbers($datas);
+            $details="";
+            foreach ($valueByDate as $keyByED => $valueByED) {
+                $details.="<h4>" . $codes[$keyByED] . "</h4>";
+                $details.="<ul>";
+                    foreach ($valueByED as $student) {
+                        $details.=get_display_defense_to_come($student);
+                    }
+                    $details.="</ul>";
+                
+                    
+                }
+            addEvent($keyByDate, $desc, $place, $details);
+        }
     }
 
 
