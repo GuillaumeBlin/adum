@@ -954,7 +954,7 @@ function get_show_key_numbers($datas)
         return time() <= strtotime($student["these_date_soutenance"]);
     });
 
-    usort($students, 'defense_sorter');
+    usort($students, array($this,'defense_sorter'));//ICI
 
     $byGroup = $this->group_by("these_date_soutenance", $students);//ICI
     foreach ($byGroup as &$valueByDate) {
