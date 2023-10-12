@@ -775,64 +775,10 @@ function get_show_key_numbers($datas)
     $cpt = 0;
     $res="";
     foreach ($datas as $key => $value) {
-        if ($cpt % 4 == 0) {
-            $res.='<div class="home-key-numbers-inner">';
-            $res.='<ul>';
-        }
-        $cpt = $cpt + 1;
-        $res.='<li>';
-        $res.='<div class="home-key-numbers-item">';
-        $res.='<strong class="home-key-numbers-item-number countup" data-value="' . $value . '">' . $value . '</strong>';
-        $res.='<p class="home-key-numbers-item-title">' . $key . '</p>';
-        $res.='<p class="home-key-numbers-item-subtitle"></p>';
-        $res.='</div>';
-        $res.='</li>';
-        if ($cpt % 4 == 0) {
-            $res.='</ul></div>';
-        }
+        $value . '</strong>';
+        $res.=$value." ".$key . '\n';
+        
     }
-    if ($cpt % 4 != 0) {
-        $res.='</ul></div>';
-    }
-    /*$res.='<script>';
-    $res.='jQuery(function($) {';
-    $res .= "var \$countup = \$('.countup');\n";
-    $res .= "\$.when('countup', function() {\n";
-    $res .= 'var processItem = function(elt) {';
-    $res .= 'var $this = $(elt),';
-    $res .= "countUp = new CountUp(elt, parseInt(\$this.attr('data-value')), {\n";
-    $res .= 'duration: 1.5,';
-    $res .= "separator: ' '\n";
-    $res .= '});';
-    $res .= 'if (!countUp.error) {';
-    $res .= 'countUp.start();';
-    $res .= '}';
-    $res .= '};';
-    $res .= "if (!('IntersectionObserver' in window)) {\n";
-    $res .= '$countup.each(function() {';
-    $res .= 'processItem(this);';
-    $res .= '});';
-    $res .= '} else {';
-    $res .= 'var observer = new IntersectionObserver(function(entries) {';
-    $res .= 'entries.forEach(function(entry) {';
-    $res .= 'if (entry.isIntersecting) {';
-    $res .= 'if (observer) {';
-    $res .= 'observer.unobserve(entry.target);';
-    $res .= '}';
-    $res .= 'processItem(entry.target);';
-    $res .= '}';
-    $res .= '});';
-    $res .= '}, {';
-    $res .= "rootMargin: '10px 0px',\n";
-    $res .= 'threshold: 0.01';
-    $res .= '});';
-    $res .= '$countup.each(function() {';
-    $res .= 'observer.observe(this);';
-    $res .= '});';
-    $res .= '}';
-    $res .= '});';
-    $res .= '});';
-    $res .= '</script>';*/
     return $res;
 }
     /*Incoming defense*/
