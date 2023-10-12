@@ -739,6 +739,8 @@ class Controller extends BlockController
             );
             $page->addBlock($block, 'Main', $data);
         }
+    }
+
         function get_display_defense_to_come($defense)
 {
 
