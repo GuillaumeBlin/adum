@@ -3,7 +3,7 @@
 use Concrete\Core\Block\BlockType\BlockType;
 use Concrete\Core\Page\Page;
 
-function array_except($array, $keys)
+function array_except2($array, $keys)
 {
     return array_diff_key($array, array_flip((array) $keys));
 }
@@ -23,9 +23,9 @@ function group_by($key, $data)
     $result = array();
     foreach ($data as $val) {
         if (array_key_exists($key, $val)) {
-            $result[$val[$key]][] = array_except($val, $key);
+            $result[$val[$key]][] = array_except2($val, $key);
         } else {
-            $result[""][] = array_except($val, $key);
+            $result[""][] = array_except2($val, $key);
         }
     }
     return $result;
@@ -204,4 +204,4 @@ function addEvent($date, $desc, $place, $details, $lang)
     }
 
     update_events();
-    
+
