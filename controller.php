@@ -717,7 +717,7 @@ class Controller extends BlockController
         if (strcmp($lang, "FR") == 0) {
             $parentPage =  Page::getByPath('/evenements');
         }else{
-            $parentPage =  Page::getByPath('/events');
+            $parentPage =  Page::getByPath('/en/events');
         }
         if (is_object($parentPage)) {
             $pageType = \PageType::getByHandle('evenement');
@@ -921,11 +921,11 @@ function get_show_key_numbers($datas)
             foreach ($valueByDate as $keyByED => $valueByED) {
                 $i = count($valueByED);
                 if ($i > 1) {
-                    $datas_fr["Soutenances à " . $codes[$keyByED]] = $i;
+                    $datas_fr["soutenances à " . $codes[$keyByED]] = $i;
                     $datas_en["PhD defenses from " . $codes[$keyByED]] = $i;
                     
                 } else {
-                    $datas_fr["Soutenance à " . $codes[$keyByED]] = $i;
+                    $datas_fr["soutenance à " . $codes[$keyByED]] = $i;
                     $datas_en["PhD defense from " . $codes[$keyByED]] = $i;
                 }
             }
