@@ -723,7 +723,7 @@ class Controller extends BlockController
             $pageType = \PageType::getByHandle('evenement');
                 $template = \PageTemplate::getByHandle('evenement');
             $url = 'sout_adum_'.$lang.'_'.$date;
-            $page = \Page::getByPath($url);//delete old one
+            $page = \Page::getByHandle($url);//delete old one
             $page->delete();
             //champs obligatoires pour page
             $obligatoires_page = array(
