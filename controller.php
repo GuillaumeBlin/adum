@@ -778,7 +778,7 @@ class Controller extends BlockController
             $res.="<li>".$member["jury"]["prenom"]." ".$member["jury"]["nom"]." - ".$member["jury"]["grade"]." - ".$member["jury"]["etab"]." - ".$member["jury"]["qualite"]."</li>";
         }
         $res.="</ul></p>";
-        $res.="<p><b>Résumé :</b><br/>".$defense["these_resume_fr"]."</p>";
+        $res.='<p><a class="btn btn-primary" href="javascript:$(\'#collapse'.$defense["Matricule_etudiant"].'\').toggle();" role="button" >Résumé</a></p><div class="collapse" id="collapsecollapse'.$defense["Matricule_etudiant"].'"><div class="card card-body">'.$defense["these_resume_fr"]."</div></div>";
     } else {
         $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre_anglais"] . '</a> ';
         $res.='by ';
