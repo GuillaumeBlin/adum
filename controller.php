@@ -723,8 +723,15 @@ class Controller extends BlockController
             $pageType = \PageType::getByHandle('evenement');
                 $template = \PageTemplate::getByHandle('evenement');
             $url = 'sout_adum_'.$lang.'_'.$date;
-            $page = \Page::getByHandle($url);//delete old one
-            $page->delete();
+            $sub_page_ids = $parentPage->getCollectionChildrenArray(1);
+            foreach ($sub_page_ids as $id) {
+                $page = \Page::getByID($id);
+                if(str_contains($page->getCollectionHandle(),$url)){
+                    echo $page->getCollectionHandle();
+                    //$page->delete();
+                }                
+            }
+            
             //champs obligatoires pour page
             $obligatoires_page = array(
                 'cDescription' => $desc,
