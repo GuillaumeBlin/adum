@@ -721,15 +721,18 @@ class Controller extends BlockController
         }
         if (is_object($parentPage)) {
             $pageType = \PageType::getByHandle('evenement');
-                $template = \PageTemplate::getByHandle('evenement');
+            $template = \PageTemplate::getByHandle('evenement');
             $url = 'sout_adum_'.$lang.'_'.$date;
             $sub_page_ids = $parentPage->getCollectionChildrenArray(1);
             foreach ($sub_page_ids as $id) {
                 $page = \Page::getByID($id);
-                if(str_starts_with($page->getCollectionName(),"Soutenances du ")){
+                if(str_starts_with($page->getCollectionName(),"Soutenances du ".$date)){
                     $page->delete();
                 }
-                if(str_starts_with($page->getCollectionName(),"Phd defense on ")){
+                if(str_starts_with($page->getCollectionName(),"Phd defense on ".$date)){
+                    $page->delete();
+                }
+                if(str_starts_with($page->getCollectionName(),"PhdDefense on ".$date)){
                     $page->delete();
                 }                
             }
@@ -775,7 +778,7 @@ class Controller extends BlockController
             $res.="<li>".$member["jury"]["prenom"]." ".$member["jury"]["nom"]." - ".$member["jury"]["grade"]." - ".$member["jury"]["etab"]." - ".$member["jury"]["qualite"]."</li>";
         }
         $res.="</ul>";
-        $res.="<i>".$defense["these_resume_fr"]."</i>";
+        $res.="<p>".$defense["these_resume_fr"]."</p>";
     } else {
         $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre_anglais"] . '</a> ';
         $res.='by ';
