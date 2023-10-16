@@ -768,7 +768,7 @@ class Controller extends BlockController
 
     $res= "<li>";
     if (strcmp($lang, "FR") == 0) {
-        $res.='<b>' . $defense["these_titre"] . '</b> ';
+        $res.='<h5>' . $defense["these_titre"] . '</h5> ';
         $res.="par ";
         $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
         $res.=" (" . $defense["these_laboratoire"] . ") </br>";
