@@ -727,8 +727,10 @@ class Controller extends BlockController
             foreach ($sub_page_ids as $id) {
                 $page = \Page::getByID($id);
                 if(str_starts_with($page->getCollectionName(),"Soutenances du ")){
-                    echo $page->getCollectionName();
-                    //$page->delete();
+                    $page->delete();
+                }
+                if(str_starts_with($page->getCollectionName(),"Phd defense on ")){
+                    $page->delete();
                 }                
             }
             
