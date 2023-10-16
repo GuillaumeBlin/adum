@@ -731,7 +731,7 @@ class Controller extends BlockController
             if (strcmp($lang, "FR") == 0) {
                 $obligatoires_page["cName"]='Soutenances du '.$date;
             }else{
-                $obligatoires_page["cName"]='PhdDefense on '.$date;
+                $obligatoires_page["cName"]='Phd defense on '.$date;
             }
             $page = $parentPage->add($pageType, $obligatoires_page, $template);
             // évènement pas dans le menu
@@ -758,17 +758,18 @@ class Controller extends BlockController
         $res.="par ";
         $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
         $res.=" (" . $defense["these_laboratoire"] . ") ";
-        $res.='à soutenir le '. $defense["these_date_soutenance"];
-        $res.=' sous la direction de ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
-        if ($defense["these_codirecteur_these_nom"] != "") {
-            $res.=' et ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+        $res.=" à ".$defense["these_heure_soutenance"]." - ".$defense["these_soutenance_salle"]." ".$defense["these_soutenance_adresse"];
+        $res.=' devant le jury composé de <ul>';
+        foreach ($defense["soutenanceJury"] as $member) {
+            $res.="<li>".$member["jury"]["prenom"]." ".$member["jury"]["nom"]." - ".$member["jury"]["grade"]." - ".$member["jury"]["etab"]." - ".$member["jury"]["qualite"]."</li>";
         }
+        $res.="</ul>";
+        $res.="<i>".$defense["these_resume_fr"]."</i>";
     } else {
         $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre_anglais"] . '</a> ';
         $res.='by ';
         $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
         $res.=" (" . $defense["these_laboratoire"] . ") ";
-        $res.='to be defend on '. $defense["these_date_soutenance"];
         $res.=' under the supervision of ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
         if ($defense["these_codirecteur_these_nom"] != "") {
             $res.=' and ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
@@ -898,7 +899,13 @@ function get_show_key_numbers($datas)
             "these_laboratoire",
             "these_specialite",
             "these_titre",
-            "these_titre_anglais"
+            "these_titre_anglais",
+            "soutenanceJury",
+            "these_heure_soutenance",
+            "these_resume_anglais",
+            "these_resume_fr",
+            "these_soutenance_adresse",
+            "these_soutenance_salle"
         ]);
     }
 
