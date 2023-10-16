@@ -732,9 +732,6 @@ class Controller extends BlockController
                 if(str_starts_with($page->getCollectionName(),"Phd defense on ".$date)){
                     $page->delete();
                 }
-                if(str_starts_with($page->getCollectionName(),"PhdDefense on ".$date)){
-                    $page->delete();
-                }                
             }
             
             //champs obligatoires pour page
