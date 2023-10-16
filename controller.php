@@ -726,8 +726,8 @@ class Controller extends BlockController
             $sub_page_ids = $parentPage->getCollectionChildrenArray(1);
             foreach ($sub_page_ids as $id) {
                 $page = \Page::getByID($id);
-                if(str_contains($page->getCollectionHandle(),$url)){
-                    echo $page->getCollectionHandle();
+                if(str_starts_with($page->getCollectionName(),"Soutenances du ")){
+                    echo $page->getCollectionName();
                     //$page->delete();
                 }                
             }
