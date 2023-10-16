@@ -768,17 +768,17 @@ class Controller extends BlockController
 
     $res= "<li>";
     if (strcmp($lang, "FR") == 0) {
-        $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre"] . '</a> ';
+        $res.='<b>' . $defense["these_titre"] . '</b> ';
         $res.="par ";
         $res.='<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
-        $res.=" (" . $defense["these_laboratoire"] . ") ";
-        $res.=" à ".$defense["these_heure_soutenance"]." - ".$defense["these_soutenance_salle"]." ".$defense["these_soutenance_adresse"];
-        $res.=' devant le jury composé de <ul>';
+        $res.=" (" . $defense["these_laboratoire"] . ") </br>";
+        $res.="Cette soutenance a lieu à ".$defense["these_heure_soutenance"]." - ".$defense["these_soutenance_salle"]." ".$defense["these_soutenance_adresse"];
+        $res.='<br/>devant le jury composé de <ul>';
         foreach ($defense["soutenanceJury"] as $member) {
             $res.="<li>".$member["jury"]["prenom"]." ".$member["jury"]["nom"]." - ".$member["jury"]["grade"]." - ".$member["jury"]["etab"]." - ".$member["jury"]["qualite"]."</li>";
         }
         $res.="</ul>";
-        $res.="<p>".$defense["these_resume_fr"]."</p>";
+        $res.="<p><b>Résumé :</b><br/>".$defense["these_resume_fr"]."</p>";
     } else {
         $res.='<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre_anglais"] . '</a> ';
         $res.='by ';
