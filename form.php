@@ -29,12 +29,12 @@ $year_needed = array("doctors_of_the_year", "annu");
 	</select>
 	<br/>
 	<label class="control-label" for="details">Présentation détaillée</label>
-	<select name="details" class="ccm-input-select">		
+	<select id="details" name="details" class="ccm-input-select">		
 		<option value="True" <?php if (strcmp($details, "True") === 0) { ?>selected<?php } ?>> Oui</option>
 		<option value="False" <?php if (strcmp($details, "False") === 0) { ?>selected<?php } ?>> Non</option>
 	</select>
 	<br/><label class="control-label" for="langage">Langue d'affichage</label>
-	<select name="langage" class="ccm-input-select">		
+	<select id="langage" name="langage" class="ccm-input-select">		
 		<option value="FR" <?php if (strcmp($langage, "FR") === 0) { ?>selected<?php } ?>> Français</option>
 		<option value="EN" <?php if (strcmp($langage, "EN") === 0) { ?>selected<?php } ?>> Anglais</option>
 	</select>
