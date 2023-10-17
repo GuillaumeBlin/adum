@@ -684,13 +684,13 @@ class Controller extends BlockController
                     $i = count($valueBySpeciality);
                     if ($i > 1) {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Doctorants/Doctorantes en " . $keyBySpeciality] = $i;
+                            $datas["Doctorants / Doctorantes en " . $keyBySpeciality] = $i;
                         } else {
                             $datas["PhD students in " . $keyBySpeciality] = $i;
                         }
                     } else {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Doctorant/Doctorante en " . $keyBySpeciality] = $i;
+                            $datas["Doctorant / Doctorante en " . $keyBySpeciality] = $i;
                         } else {
                             $datas["PhD student in " . $keyBySpeciality] = $i;
                         }
