@@ -52,10 +52,10 @@ $("#parsing").change(function() {
 });
 
 $('#filter option[value="-1"]').prop("selected", true);
-var disabled = ($parsing != "doctors_of_the_year" && $parsing != "annu");
+var disabled = ("<?php echo $parsing;?>" != "doctors_of_the_year" && "<?php echo $parsing;?>" != "annu");
 $("#year").prop("disabled", disabled);
 $('#filter option[value=""]').prop("disabled", true);
-if ($parsing=="training_by_ed"){
+if ("<?php echo $parsing;?>"=="training_by_ed"){
 	$('#filter option[value=""]').prop("disabled", false);
 }
 </script>
