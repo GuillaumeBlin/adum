@@ -499,13 +499,13 @@ class Controller extends BlockController
                     $i = count($valueBySpeciality);
                     if ($i > 1) {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Docteurs/Docteures en " . $keyBySpeciality] = $i;
+                            $datas["Docteurs / Docteures en " . $keyBySpeciality] = $i;
                         } else {
                             $datas["Doctors in " . $keyBySpeciality] = $i;
                         }
                     } else {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Docteur/Docteure en " . $keyBySpeciality] = $i;
+                            $datas["Docteur / Docteure en " . $keyBySpeciality] = $i;
                         } else {
                             $datas["Doctor in " . $keyBySpeciality] = $i;
                         }
@@ -595,13 +595,13 @@ class Controller extends BlockController
                     $i = count($valueByStructure);
                     if ($i > 1) {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrants/Encadrantes - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Encadrants / Encadrantes - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
                             $datas["PhD supervisors - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
                     } else {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrant/Encadrante - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Encadrant / Encadrante - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
                             $datas["PhD supervisor - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
