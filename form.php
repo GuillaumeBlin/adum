@@ -50,4 +50,12 @@ $("#parsing").change(function() {
 			$('#filter option[value=""]').prop("disabled", false);
 		}
 });
+
+$('#filter option[value="-1"]').prop("selected", true);
+var disabled = ($parsing != "doctors_of_the_year" && $parsing != "annu");
+$("#year").prop("disabled", disabled);
+$('#filter option[value=""]').prop("disabled", true);
+if ($parsing=="training_by_ed"){
+	$('#filter option[value=""]').prop("disabled", false);
+}
 </script>
