@@ -43,7 +43,7 @@ $year_needed = array("doctors_of_the_year", "annu");
 <script>
 $("#parsing").change(function() {
     $('#filter option[value="-1"]').prop("selected", true);
-	var disabled = (this.value != "doctors_of_the_year" && this.value != "annu");
+	var disabled = (this.value != "doctors_of_the_year" && this.value != "annu" && this.value != "training_by_ed");
     	$("#year").prop("disabled", disabled);
 		$('#filter option[value=""]').prop("disabled", true);
 		if (this.value=="training_by_ed"){
