@@ -809,7 +809,7 @@ class Controller extends BlockController
     /*Incoming training*/
     private function load_training_by_ed()
     {
-       // $this->add_a_keyword("Guillaume,Blin,Test,KW");
+        $this->add_a_keyword("Guillaume,Blin,Test,KW");
         $trainings = $this->retrieve_json("formations", $this->year);
 
         $ntrainings = $trainings["data"];
@@ -879,7 +879,7 @@ class Controller extends BlockController
     {
         $tagValues = array();
         $importTags = explode(",", $kw);
-        $ak = CollectionAttributeKey::getByHandle('tags');
+        $ak = \CollectionAttributeKey::getByHandle('tags');
 
         $orm = \Database::connection()->getEntityManager();
         $repository = $orm->getRepository('\Concrete\Core\Entity\Attribute\Value\Value\SelectValueOption');
