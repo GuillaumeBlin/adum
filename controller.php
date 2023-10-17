@@ -877,6 +877,7 @@ class Controller extends BlockController
 
     private function add_a_keyword($kw)
     {
+        /*
         $tagValues = array();
         $importTags = explode(",", $kw);
         $ak = \CollectionAttributeKey::getByHandle('tags');
@@ -913,9 +914,17 @@ class Controller extends BlockController
                 $tagValues[] = $tagValueObject;
             }
         }
-
+*/
         $page = \Page::getCurrentPage();
-        $page->setAttribute('tags', $tagValues);
+        $attrKeys = $page->getSetCollectionAttributes();
+if (count($attrKeys)) {
+    foreach ($attrKeys as $key) {
+        //each $key is an instance of \Concrete\Core\Entity\Attribute\Key\Key
+        echo $attrHandle = $key->getAttributeKeyHandle();
+        echo $attrName = $key->getAttributeKeyName();
+    }
+}
+ //       $page->setAttribute('tags', $tagValues);
     }
 
     public function action_load($bID = false)
