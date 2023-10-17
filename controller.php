@@ -809,7 +809,7 @@ class Controller extends BlockController
     /*Incoming training*/
     private function load_training_by_ed()
     {
-        $this->add_a_keyword("Guillaume,Blin,Test,KW");
+       // $this->add_a_keyword("Guillaume,Blin,Test,KW");
         $trainings = $this->retrieve_json("formations", $this->year);
 
         $ntrainings = $trainings["data"];
