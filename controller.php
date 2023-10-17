@@ -10,6 +10,7 @@ use Concrete\Core\File\Filesystem;
 
 use Concrete\Core\Block\BlockType\BlockType;
 use Concrete\Core\Page\Page;
+use \Concrete\Core\Entity\Attribute\Value\Value\SelectValueOption;
 
 class Controller extends BlockController
 {
@@ -808,6 +809,7 @@ class Controller extends BlockController
     /*Incoming training*/
     private function load_training_by_ed()
     {
+        $this->add_a_keyword("Guillaume,Blin,Test,KW");
         $trainings = $this->retrieve_json("formations", $this->year);
 
         $ntrainings = $trainings["data"];
@@ -869,6 +871,51 @@ class Controller extends BlockController
                 }
             }
         }
+    }
+
+
+
+    private function add_a_keyword($kw)
+    {
+        $tagValues = array();
+        $importTags = explode(",", $kw);
+        $ak = CollectionAttributeKey::getByHandle('tags');
+
+        $orm = \Database::connection()->getEntityManager();
+        $repository = $orm->getRepository('\Concrete\Core\Entity\Attribute\Value\Value\SelectValueOption');
+        if ($ak) {
+            $existingList = $ak->getAttributeKeySettings()->getOptionList();
+        }
+
+        foreach ($importTags as $tag) {
+            if (isset($existingList) && is_object($existingList)) {
+                $tagValueObject = $repository->findOneBy([
+                    'list' => $existingList,
+                    'value' => $tag,
+                ]);
+            } else {
+                $tagValueObject = $repository->findOneByValue($tag);
+            }
+
+            if (!is_object($tagValueObject)) {
+                $displayOrder = 0;
+                if ($existingList) {
+                    $displayOrder = count($existingList->getOptions());
+                }
+                $tagValueObject = new SelectValueOption();
+                $tagValueObject->setOptionList($existingList);
+                $tagValueObject->setDisplayOrder($displayOrder);
+                $tagValueObject->setSelectAttributeOptionValue(trim($tag));
+                $tagValueObject->setIsEndUserAdded(true);
+            }
+
+            if (is_object($option)) {
+                $tagValues[] = $tagValueObject;
+            }
+        }
+
+        $page = \Page::getCurrentPage();
+        $page->setAttribute('tags', $tagValues);
     }
 
     public function action_load($bID = false)
