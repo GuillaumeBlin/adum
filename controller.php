@@ -548,7 +548,7 @@ class Controller extends BlockController
 
         $structuresbyGroup[0] = array();
         $structuresbyGroup[0][0] = array();
-        $structuresbyGroup[0][0]["libelle"] = "Laboratoire inconnu";
+        $structuresbyGroup[0][0]["libelle"] = "Laboratoire non spécifié";
 
         $nmembers = array();
         foreach ($members as &$value) {
