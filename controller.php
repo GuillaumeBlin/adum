@@ -99,6 +99,10 @@ class Controller extends BlockController
         return $result;
     }
 
+    private function totitle($string){
+        return ucfirst(strtolower($string));
+      }
+
     /* DISPLAY functions */
 
     private function display_training($modT)
@@ -109,7 +113,7 @@ class Controller extends BlockController
     private function display_member_annu($member)
     {
         echo "<li>";
-        echo '<a target="_blank" href="https://adum.fr/as/ed/detailResp.pl?resp=' . $member["matricule"] . '">' . $member["prenom"] . ' ' . $member["nom"] . '</a> ';
+        echo '<a target="_blank" href="https://adum.fr/as/ed/detailResp.pl?resp=' . $member["matricule"] . '">' . $this->totitle($member["prenom"]) . ' ' . $member["nom"] . '</a> ';
         echo "</li>";
     }
 
@@ -156,22 +160,22 @@ class Controller extends BlockController
         }
         echo "<li>";
         if (strcmp($this->langage, "FR") == 0) {
-            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $this->totitle($defense["prenom"]) . ' ' . $defense["nom"] . '</a> ';
             echo  ' (' . $year . ' année) - ';
             echo $defense["these_titre"] . " - ";
             //echo " (".$defense["these_laboratoire"].") ";        
-            echo   'sous la direction de ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+            echo   'sous la direction de ' . $this->totitle($defense["these_directeur_these_prenom"]) . " " . $defense["these_directeur_these_nom"];
             if ($defense["these_codirecteur_these_nom"] != "") {
                 echo ' et ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
             }
         } else {
-            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $this->totitle($defense["prenom"]) . ' ' . $defense["nom"] . '</a> ';
             echo  ' (' . $year . ' year) - ';
             echo $defense["these_titre_anglais"] . " - ";
             //echo " (".$defense["these_laboratoire"].") ";        
-            echo  'under the supervision of ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+            echo  'under the supervision of ' . $this->totitle($defense["these_directeur_these_prenom"]) . " " . $defense["these_directeur_these_nom"];
             if ($defense["these_codirecteur_these_nom"] != "") {
-                echo ' and ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+                echo ' and ' . $this->totitle($defense["these_codirecteur_these_prenom"]) . " " . $defense["these_codirecteur_these_nom"];
             }
         }
 
@@ -196,22 +200,22 @@ class Controller extends BlockController
         if (strcmp($this->langage, "FR") == 0) {
             echo '<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre"] . '</a> ';
             echo "par ";
-            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $this->totitle($defense["prenom"]) . ' ' . $defense["nom"] . '</a> ';
             echo " (" . $defense["these_laboratoire"] . ") ";
             echo  'soutenue le ', $defense["these_date_soutenance"];
-            echo   ' sous la direction de ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+            echo   ' sous la direction de ' . $this->totitle($defense["these_directeur_these_prenom"]) . " " . $defense["these_directeur_these_nom"];
             if ($defense["these_codirecteur_these_nom"] != "") {
-                echo ' et ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+                echo ' et ' . $this->totitle($defense["these_codirecteur_these_prenom"]) . " " . $defense["these_codirecteur_these_nom"];
             }
         } else {
             echo '<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre_anglais"] . '</a> ';
             echo 'by ';
-            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $this->totitle($defense["prenom"]) . ' ' . $defense["nom"] . '</a> ';
             echo " (" . $defense["these_laboratoire"] . ") ";
             echo  'defended on ', $defense["these_date_soutenance"];
-            echo  ' under the supervision of ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+            echo  ' under the supervision of ' . $this->totitle($defense["these_directeur_these_prenom"]) . " " . $defense["these_directeur_these_nom"];
             if ($defense["these_codirecteur_these_nom"] != "") {
-                echo ' and ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+                echo ' and ' . $this->totitle($defense["these_codirecteur_these_prenom"]) . " " . $defense["these_codirecteur_these_nom"];
             }
         }
         echo "</li>";
@@ -224,22 +228,22 @@ class Controller extends BlockController
         if (strcmp($this->langage, "FR") == 0) {
             echo '<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre"] . '</a> ';
             echo "par ";
-            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $this->totitle($defense["prenom"]) . ' ' . $defense["nom"] . '</a> ';
             echo " (" . $defense["these_laboratoire"] . ") ";
             echo  'à soutenir le ', $defense["these_date_soutenance"];
-            echo   ' sous la direction de ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+            echo   ' sous la direction de ' . $this->totitle($defense["these_directeur_these_prenom"]) . " " . $defense["these_directeur_these_nom"];
             if ($defense["these_codirecteur_these_nom"] != "") {
-                echo ' et ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+                echo ' et ' . $this->totitle($defense["these_codirecteur_these_prenom"]) . " " . $defense["these_codirecteur_these_nom"];
             }
         } else {
             echo '<a target="_blank" href="https://adum.fr/script/detailSout.pl?site=CDUBX&&langue=fr&mat=' . $defense["Matricule_etudiant"] . '">' . $defense["these_titre_anglais"] . '</a> ';
             echo 'by ';
-            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            echo '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $this->totitle($defense["prenom"]) . ' ' . $defense["nom"] . '</a> ';
             echo " (" . $defense["these_laboratoire"] . ") ";
             echo  'to be defend on ', $defense["these_date_soutenance"];
-            echo   ' under the supervision of ' . $defense["these_directeur_these_prenom"] . " " . $defense["these_directeur_these_nom"];
+            echo   ' under the supervision of ' . $this->totitle($defense["these_directeur_these_prenom"]) . " " . $defense["these_directeur_these_nom"];
             if ($defense["these_codirecteur_these_nom"] != "") {
-                echo ' and ' . $defense["these_codirecteur_these_prenom"] . " " . $defense["these_codirecteur_these_nom"];
+                echo ' and ' . $this->totitle($defense["these_codirecteur_these_prenom"]) . " " . $defense["these_codirecteur_these_nom"];
             }
         }
         echo "</li>";
