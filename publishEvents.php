@@ -70,10 +70,6 @@ function addEvent($date, $desc, $place, $details, $lang)
             $page->setAttribute('thumbnail', 174);
             $page->setAttribute('lieu',  $place);
             $page->setAttribute('date_fin',  $date . ' 23:59:59');
-            
-            $page->update(array(
-                'cCacheFullPageContent' => false
-            ));
 
             $block = BlockType::getByHandle('html');
             $data = array(
