@@ -1,6 +1,6 @@
 <?php defined('C5_EXECUTE') or die(_("Access Denied."));
 
-$parsing_types = array("doctors_of_the_year" => "Docteur.e.s d'une année", "phd_proposal" => "Propositions de sujets de thèses", "annu" => "Annuaire des doctorant.e.s d'une année", "phd_defense_by_ed" => "Soutenances à venir", "members_annu" => "Annuaire des encadrant.e.s", "training_by_ed" => "Formations à venir");
+$parsing_types = array("doctors_of_the_year" => "Docteur.e.s d'une année", "phd_proposal" => "Propositions de sujets de thèses", "annu" => "Annuaire des doctorant.e.s d'une année", "phd_defense_by_ed" => "Soutenances à venir", "members_annu" => "Annuaire des encadrant.e.s", "training_by_ed" => "Formations à venir", "");
 $codes = array(""=>"CED","41" => "ED Droit", "42" => "ED Entreprise Economie Société", "40" => "ED Sciences Chimiques", "154" => "ED Sciences de la Vie et de la Santé", "304" => "ED Sciences et environnements", "209" => "ED Sciences Physiques et de l'Ingénieur", "545" => "ED Sociétés, Politique, Santé Publique", "39" => "ED Mathématiques et Informatique");
 $year_needed = array("doctors_of_the_year", "annu");
 ?>
@@ -51,7 +51,7 @@ $("#parsing").change(function() {
 		}
 });
 
-$('#filter option[value="-1"]').prop("selected", true);
+//$('#filter option[value="-1"]').prop("selected", true);
 var disabled = ("<?php echo $parsing;?>" != "doctors_of_the_year" && "<?php echo $parsing;?>" != "annu");
 $("#year").prop("disabled", disabled);
 $('#filter option[value=""]').prop("disabled", true);
