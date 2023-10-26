@@ -339,7 +339,7 @@ class Controller extends BlockController
         } else {
             foreach ($byGroup as $keyByED => $valueByED) {
                 if ($this->filter == "-1") {
-                    echo "<h2>" . $this->codes[$keyByED] . "</h2>";
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
                 } else {
                     if ($keyByED != $this->filter) {
                         continue;
@@ -368,9 +368,9 @@ class Controller extends BlockController
                     if (strcmp($this->details, "True") == 0) {
                         foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                             if ($this->filter != "-1") {
-                                echo "<h3>" . $keyBySpeciality . "</h3>";
-                            } else {
                                 echo "<h4>" . $keyBySpeciality . "</h4>";
+                            } else {
+                                echo "<h5>" . $keyBySpeciality . "</h5>";
                             }
                             echo "<ul>";
                             foreach ($valueBySpeciality as $prop) {
