@@ -420,7 +420,7 @@ class Controller extends BlockController
         $cpt = 0;
         foreach ($datas as $key => $value) {
             if ($cpt % 4 == 0) {
-                echo '<div class="home-key-numbers-inner">';
+                echo '<div class="home-key-numbers-inner" onmouseover="display_countup()">';
                 echo '<ul>';
             }
             $cpt = $cpt + 1;
