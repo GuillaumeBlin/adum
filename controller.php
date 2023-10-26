@@ -438,7 +438,7 @@ class Controller extends BlockController
         if ($cpt % 4 != 0) {
             echo '</ul></div>';
         }
-        echo '<script>';
+      /*  echo '<script>';
         echo 'jQuery(function($) {';
         echo "var \$countup = \$('.countup');\n";
         echo "\$.when('countup', function() {\n";
@@ -476,7 +476,7 @@ class Controller extends BlockController
         echo '}';
         echo '});';
         echo '});';
-        echo '</script>';
+        echo '</script>';*/
     }
 
     /*Doctors of the current academic year */
