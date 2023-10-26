@@ -287,7 +287,7 @@ class Controller extends BlockController
 
     private function proposals_sorter(array $a, array $b)
     {
-        return [$a['these_ED_code'], $a['Struct_libelle'], $a['specialite'], $a['sujet']] <=> [$b['these_ED_code'], $b['Struct_libelle'], $b['specialite'], $b['sujet']];
+        return [$a['these_ED_code'], $a['specialite'], $a['sujet']] <=> [$b['these_ED_code'], $b['specialite'], $b['sujet']];
     }
 
     private function students_sorter(array $a, array $b)
@@ -327,10 +327,7 @@ class Controller extends BlockController
         usort($result, array($this, 'proposals_sorter'));
         $byGroup = $this->group_by("these_ED_code", $result);
         foreach ($byGroup as &$valueByED) {
-            $valueByED = $this->group_by("Struct_libelle", $valueByED);
-            foreach ($valueByED as &$valueByLab) {
-                $valueByLab = $this->group_by("specialite", $valueByLab);
-            }
+            $valueByED = $this->group_by("specialite", $valueByED);            
         }
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
         if ($this->filter != "-1" && !array_key_exists($this->filter, $byGroup)) {
@@ -348,16 +345,10 @@ class Controller extends BlockController
                         continue;
                     }
                 }
-                foreach ($valueByED as $keyByLab => $valueByLab) {
-                    if ($this->filter != "-1") {
-                        echo "<h3>" . $keyByLab . "</h3>";
-                    } else {
-                        echo "<h4>" . $keyByLab . "</h4>";
-                    }
-                    $datas = array();
+                $datas = array();
 
 
-                    foreach ($valueByLab as $keyBySpeciality => $valueBySpeciality) {
+                    foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                         $i = count($valueBySpeciality);
                         if ($i > 1) {
                             if (strcmp($this->langage, "FR") == 0) {
@@ -375,9 +366,9 @@ class Controller extends BlockController
                     }
                     $this->show_key_numbers($datas);
                     if (strcmp($this->details, "True") == 0) {
-                        foreach ($valueByLab as $keyBySpeciality => $valueBySpeciality) {
+                        foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                             if ($this->filter != "-1") {
-                                echo "<h4>" . $keyBySpeciality . "</h4>";
+                                echo "<h3>" . $keyBySpeciality . "</h4>";
                             } else {
                                 echo "<h5>" . $keyBySpeciality . "</h5>";
                             }
@@ -388,7 +379,7 @@ class Controller extends BlockController
                             echo "</ul>";
                         }
                     }
-                }
+                
             }
         }
     }
