@@ -439,7 +439,7 @@ class Controller extends BlockController
             echo '</ul></div>';
         }
         echo '<script>';
-        echo 'display_countup();';
+        echo 'register_countup();';
         echo '</script>';
       /*  echo '<script>';
         echo 'jQuery(function($) {';
