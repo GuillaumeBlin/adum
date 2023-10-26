@@ -426,7 +426,7 @@ class Controller extends BlockController
             $cpt = $cpt + 1;
             echo '<li>';
             echo '<div class="home-key-numbers-item">';
-            echo '<strong class="home-key-numbers-item-number countup" data-value="' . $value . '">' . $value . '</strong>';
+            echo '<strong class="home-key-numbers-item-number countup countup-block" data-value="' . $value . '">' . $value . '</strong>';
             echo '<p class="home-key-numbers-item-title">' . $key . '</p>';
             echo '<p class="home-key-numbers-item-subtitle"></p>';
             echo '</div>';
