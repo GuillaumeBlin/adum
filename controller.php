@@ -438,6 +438,9 @@ class Controller extends BlockController
         if ($cpt % 4 != 0) {
             echo '</ul></div>';
         }
+        echo '<script>';
+        echo 'display_countup();';
+        echo '</script>';
       /*  echo '<script>';
         echo 'jQuery(function($) {';
         echo "var \$countup = \$('.countup');\n";
