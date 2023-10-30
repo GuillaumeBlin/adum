@@ -230,7 +230,7 @@ class Controller extends BlockController
             $res .= "<p>par ";
             $res .= '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
             $res .= " (" . $defense["these_laboratoire"] . ") </p>";
-            $res .= "<p>Cette soutenance a lieu à " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
+            $res .= "<p>Cette soutenance a lieu le ".$defense["these_date_soutenance"]." à " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
             $res .= '<p>devant le jury composé de <ul>';
             foreach ($defense["soutenanceJury"] as $member) {
                 $res .= "<li>" . $member["jury"]["prenom"] . " " . $member["jury"]["nom"] . " - " . $member["jury"]["grade"] . " - " . $member["jury"]["etab"] . " - " . $member["jury"]["qualite"] . "</li>";
@@ -242,7 +242,7 @@ class Controller extends BlockController
             $res .= "<p>by ";
             $res .= '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
             $res .= " (" . $defense["these_laboratoire"] . ") </p>";
-            $res .= "<p>The defense will take place at " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
+            $res .= "<p>The defense will take place the ".$defense["these_date_soutenance"]." at " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
             $res .= '<p>in front of the jury composed of <ul>';
             foreach ($defense["soutenanceJury"] as $member) {
                 $res .= "<li>" . $member["jury"]["prenom"] . " " . $member["jury"]["nom"] . " - " . $member["jury"]["grade"] . " - " . $member["jury"]["etab"] . " - " . $member["jury"]["qualite"] . "</li>";
