@@ -588,6 +588,12 @@ class Controller extends BlockController
             if (!array_key_exists($value["matricule_structure"], $structuresbyGroup)) {
                 $value["matricule_structure"] = 0;
             }
+            if(strcmp($this->adt_hdr_only, "True") == 0) {                
+                if((strcmp($value["ADT"], "non") == 0)&&(strcmp($value["HDR"], "non") == 0))
+                    unset($value);
+                    continue;
+                }
+            }
             $i = count($value["ED_code"]);
             if ($i == 0) {
                 unset($value);
