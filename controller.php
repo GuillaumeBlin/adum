@@ -650,6 +650,9 @@ class Controller extends BlockController
                 $this->show_key_numbers($datas);
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyByStructure => $valueByStructure) {
+                        if(strcmp($keyByStructure, "") == 0){
+                        $keyByStructure="Spécialité inconnue";
+                        }
                         if ($this->filter != "-1") {
                             echo "<h3>" . $this->display_speciality($keyByStructure) . "</h3>";
                         } else {
