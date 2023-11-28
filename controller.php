@@ -589,7 +589,7 @@ class Controller extends BlockController
                 $value["matricule_structure"] = 0;
             }
             if(strcmp($this->adt_hdr_only, "True") == 0) {                
-                if((strcmp($value["ADT"], "non") == 0)&&(strcmp($value["HDR"], "non") == 0))
+                if((strcmp($value["ADT"], "non") == 0)&&(strcmp($value["HDR"], "non") == 0)){
                     unset($value);
                     continue;
                 }
