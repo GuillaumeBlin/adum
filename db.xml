@@ -23,6 +23,11 @@
 		<field name="details" type="text">
 			<default value="True"/>
 		</field>
+	
+		<field name="adt_hdr_only" type="text">
+			<default value="False"/>
+		</field>
+		
 		<field name="langage" type="text">
 			<default value="FR"/>
 		</field>

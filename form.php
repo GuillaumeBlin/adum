@@ -21,6 +21,12 @@ $year_needed = array("doctors_of_the_year", "annu");
 			<option value="<?php echo $key; ?>" <?php if (strcmp($filter, $key) === 0) { ?>selected<?php } ?>> <?php echo $opt; ?></option>
 		<?php } ?>
 	</select>
+	<br/><label class="control-label" for="adt_hdr_only">ADT/HDR seulement</label>
+	<select id="adt_hdr_only" name="adt_hdr_only" class="ccm-input-select">		
+		<option value="True" <?php if (strcmp($adt_hdr_only, "True") === 0) { ?>selected<?php } ?>> Oui</option>
+		<option value="False" <?php if (strcmp($adt_hdr_only, "False") === 0) { ?>selected<?php } ?>> Non</option>
+	</select>
+
 	<br/><label class="control-label" for="year">Année affichée</label>
 	<select id="year" name="year" class="ccm-input-select">
 		<?php for($i=2016;$i<date("Y")+1;$i++) { ?>
