@@ -122,6 +122,11 @@ class Controller extends BlockController
         return '<a target="_blank" href="https://adum.fr/as/ed/fiche.pl?mat=' . $mat . '">' . $lab[0]["libelle"] . '</a> ';
     }
 
+    private function display_speciality($spe)
+    {
+        return $spe;
+    }
+
     private function display_annu($defense)
     {
         $year = (int)$defense["niveau_Etud"][0];
@@ -598,7 +603,7 @@ class Controller extends BlockController
 
         $membersbyGroup = $this->group_by("ED_code", $nmembers);
         foreach ($membersbyGroup as &$valueByED) {
-            $valueByED = $this->group_by("matricule_structure", $valueByED);
+            $valueByED = $this->group_by("specialite", $valueByED);
         }
 
 
@@ -625,17 +630,20 @@ class Controller extends BlockController
                 $datas = array();
                 foreach ($valueByED as $keyByStructure => $valueByStructure) {
                     $i = count($valueByStructure);
+                    if(strcmp($keyByStructure, "") == 0){
+                        $keyByStructure="Spécialité inconnue";
+                    }
                     if ($i > 1) {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrants / Encadrantes - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Encadrants / Encadrantes - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
-                            $datas["PhD supervisors - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["PhD supervisors - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
                     } else {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrant / Encadrante - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Encadrant / Encadrante - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
-                            $datas["PhD supervisor - " . $structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["PhD supervisor - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
                     }
                 }
@@ -643,9 +651,9 @@ class Controller extends BlockController
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyByStructure => $valueByStructure) {
                         if ($this->filter != "-1") {
-                            echo "<h3>" . $this->display_laboratory($keyByStructure, $structuresbyGroup[$keyByStructure]) . "</h3>";
+                            echo "<h3>" . $this->display_speciality($keyByStructure) . "</h3>";
                         } else {
-                            echo "<h4>" . $this->display_laboratory($keyByStructure, $structuresbyGroup[$keyByStructure]) . "</h4>";
+                            echo "<h4>" . $this->display_speciality($keyByStructure). "</h4>";
                         }
                         echo '<ul class="card-columns" style="column-count: 3;">';
                         foreach ($valueByStructure as $member) {
