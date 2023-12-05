@@ -614,7 +614,7 @@ class Controller extends BlockController
 
         if($this->filter=="545"){
                  echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
-        }
+                 
 
         if ($this->filter != "-1" && !array_key_exists($this->filter, $membersbyGroup)) {
             if (strcmp($this->langage, "FR") == 0) {
@@ -624,6 +624,7 @@ class Controller extends BlockController
             }
         } else {
             foreach ($membersbyGroup as $keyByED => $valueByED) {
+                echo "<b>".$this->filter."</b><br/>";
                 if ($keyByED == "") {
                     continue;
                 }
