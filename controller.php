@@ -710,7 +710,7 @@ class Controller extends BlockController
             $valueByED = $this->group_by("these_specialite", $valueByED);
         }
         if($this->filter=="545"){
-            echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
+            echo "<pre>" . var_export($byGroup, true) . "</pre>";
    }
 
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
