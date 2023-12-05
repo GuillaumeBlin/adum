@@ -709,11 +709,7 @@ class Controller extends BlockController
         foreach ($byGroup as &$valueByED) {
             $valueByED = $this->group_by("these_specialite", $valueByED);
         }
-        if($this->filter=="545"){
-            //echo "<pre>" . var_export($byGroup[545], true) . "</pre>";
-        //Ethnologie - Option Antropologie sociale et culturelle
-        }
-
+        
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
 
         if ($this->filter != "-1" && !array_key_exists($this->filter, $byGroup)) {
@@ -723,14 +719,7 @@ class Controller extends BlockController
                 echo "No PhD students registered to this doctoral school.";
             }
         } else {
-            if($this->filter=="545"){
-                    echo "<pre>LA " . var_export($byGroup[545], true) . "</pre>";
-                //Ethnologie - Option Antropologie sociale et culturelle
-                }
             foreach ($byGroup as $keyByED => $valueByED) {
-                //if($keyByED==545){
-                    echo "<pre>ICI ".$keyByED." " . var_export($valueByED, true) . "</pre>";
-                //}
                 if ($this->filter == "-1") {
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
                 } else {
