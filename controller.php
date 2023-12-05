@@ -723,9 +723,13 @@ class Controller extends BlockController
                 echo "No PhD students registered to this doctoral school.";
             }
         } else {
+            if($this->filter=="545"){
+                    echo "<pre>" . var_export($byGroup["545"], true) . "</pre>";
+                //Ethnologie - Option Antropologie sociale et culturelle
+                }
             foreach ($byGroup as $keyByED => $valueByED) {
                 if($this->filter=="545" && $keyByED=="545"){
-                    echo "<pre>" . var_export($byGroup["545"], true) . "</pre>";
+                    echo "<pre>ICI" . var_export($byGroup["545"], true) . "</pre>";
                 }
                 if ($this->filter == "-1") {
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
