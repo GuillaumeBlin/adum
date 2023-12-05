@@ -732,6 +732,7 @@ class Controller extends BlockController
                     }
                 }
                 if($this->filter=="545"){
+                    echo $keyByED;
                     echo "<pre>" . var_export($valueByED, true) . "</pre>";
                 }
                 $datas = array();

@@ -1,40 +1,249 @@
-<script type="text/javascript">
+< script type = "text/javascript" >
     var userfilters = {
-        "userstudent": ["Student", "Etudiant•e"],
-        "userphd": ["PhD student", "Doctorant•e"],
-        "usersupervisor": ["PhD supervisor", "Encadrant•e"],
-        "userother": ["Other", "Autre"]
+        "userstudent": ["student", "une étudiante / un étudiant"],
+        "userphd": ["PhD student", "une doctorante / un doctorant"],
+        "usersupervisor": ["PhD supervisor", "une encadrante / un encadrant"],
+        "userother": ["visitor", "une visiteuse / un visiteur"]
     };
-    var edfilters = {
-        "edmi": ["Doctoral School Mathematics and Computer Science", "ED Mathématiques et Informatique"],
-        "eddroit": ["Doctoral School Law", "ED Droit"],
-        "edees": ["Doctoral School Economic Sciences, Management and Demography", "ED Entreprise, Économie, Société"],
-        "edse": ["Doctoral School Sciences and Environments", "ED Sciences et Environnements"],
-        "edspi": ["Doctoral School Physics and Engineering", "ED Sciences Physiques et de l\'Ingénieur"],
-        "edsvs": ["Doctoral School Health and Life Sciences", "ED Sciences de la Vie et de la Santé"],
-        "edsc": ["Doctoral School Chemical Sciences", "ED Sciences Chimiques"],
-        "edsp2": ["Doctoral School Society, Politics, Public Health", "ED Sociétés, Politique, Santé Publique"]
-    };
+var edfilters = {
+    "ed*": ["all doctoral schools", "toutes les EDs"],
+    "edmi": ["the Doctoral School Mathematics and Computer Science", "l'ED Mathématiques et Informatique"],
+    "eddroit": ["the Doctoral School Law", "l'ED Droit"],
+    "edees": ["the Doctoral School Economic Sciences, Management and Demography", "l'ED Entreprise, Économie, Société"],
+    "edse": ["the Doctoral School Sciences and Environments", "l'ED Sciences et Environnements"],
+    "edspi": ["the Doctoral School Physics and Engineering", "l'ED Sciences Physiques et de l\'Ingénieur"],
+    "edsvs": ["the Doctoral School Health and Life Sciences", "l'ED Sciences de la Vie et de la Santé"],
+    "edsc": ["the Doctoral School Chemical Sciences", "l'ED Sciences Chimiques"],
+    "edsp2": ["the Doctoral School Society, Politics, Public Health", "l'ED Sociétés, Politique, Santé Publique"]
+};
 
-    function filterInfoByClass() {
-        $.each(userfilters, function(index, value) {
-            $("." + index).hide();
+
+
+function filterMenu() {
+    $('a[href*="avant-le-doctorat"]').parent().parent().show();
+    $('a[href*="encadrantes-encadrants"]').parent().parent().show();
+    var selectedFilters = Cookies.get("ub-filter-adum");
+    if (selectedFilters) {
+        var arr = selectedFilters.split('|');
+        $.each(arr, function(index, value) {
+            if (value === "userphd") {
+                $('a[href*="avant-le-doctorat"]').parent().parent().hide();
+                $('a[href*="encadrantes-encadrants"]').parent().parent().hide();
+            }
+            if (value === "userstudent") {
+                $('a[href*="encadrantes-encadrants"]').parent().parent().hide();
+            }
         });
-        $.each(edfilters, function(index, value) {
-            $("." + index).hide();
-        });
-        var selectedFilters = Cookies.get("ub-filter-adum");
-        if (selectedFilters) {
-            var arr = selectedFilters.split('|');
-            $.each(arr, function(index, value) {
-                $("." + value).show();
-            });
-        }
     }
+}
+
+function filterInfoByClass() {
+    $.each(userfilters, function(index, value) {
+        $("." + index).hide();
+    });
+    $.each(edfilters, function(index, value) {
+        $("." + index).hide();
+    });
+    var selectedFilters = Cookies.get("ub-filter-adum");
+    if (selectedFilters) {
+        var arr = selectedFilters.split('|');
+        $.each(arr, function(index, value) {
+            $('.' + value).show();
+            if (value == "ed*") {
+                $.each(edfilters, function(index, value) {
+                    $("." + index).show();
+                });
+            }
+        });
+    }
+}
+
+$(function() {
+
+    when('Cookies', function(Cookies) {
+        if (!Cookies.get("ub-filter-adum")) {
+            Cookies.set("ub-filter-adum", "userother|ed*"); //default value
+        } else {
+            filterInfoByClass();
+            filterMenu();
+            if ($('.std-page-main-inner > h1:first-child').length) {
+                $('.std-page-main-inner > h1:first-child').after('<div class="block-emphasis"><div class="block-emphasis-inner"><p></p><p id="profile"></p><p></p></div></div>');
+                var selectedFilters = Cookies.get("ub-filter-adum");
+                if (selectedFilters) {
+                    var arr = selectedFilters.split('|');
+                    if ($('html').attr('lang') == "en") {
+                        $('#profile').html("You are viewing relevant information for " + userfilters[arr[0]][0].toLowerCase() + " of " + edfilters[arr[1]][0] + " (choices that can be modified <a href='https://doctorat.u-bordeaux.fr/en/my-profil-my-interest'>here</a>)");
+                    } else {
+                        $('#profile').html("Vous visualisez les informations intéressantes pour " + userfilters[arr[0]][1].toLowerCase() + " de " + edfilters[arr[1]][1] + " (choix modifiables <a href='https://doctorat.u-bordeaux.fr/aide/mon-profil-mes-interets'>ici</a>)");
+                    }
+                }
+            }
+
+
+        }
+    });
+
+}); <
+/script>
+
+
+////Mon profil
+
+<
+div id = "adum_modal" >
+    <
+    h3 class = "fr" > Qui suis - je ? < /h3> <
+div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "userstudent" >
+    <
+    label class = "form-check-label fr" >
+    Étudiante / Étudiant <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "userphd" >
+    <
+    label class = "form-check-label fr" >
+    Doctorante / Doctorant <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "usersupervisor" >
+    <
+    label class = "form-check-label fr" >
+    Encadrante / Encadrant <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "userother" >
+    <
+    label class = "form-check-label fr" >
+    Autre <
+    /label> < /
+    div > <
+    h3 class = "fr" > Quelle école doctorale m 'intéresse ?</h3> <
+div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "ed*" >
+    <
+    label class = "form-check-label fr" >
+    Toutes les EDs <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edmi" >
+    <
+    label class = "form-check-label fr" >
+    ED Mathématiques et Informatique <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "eddroit" >
+    <
+    label class = "form-check-label fr" >
+    ED Droit <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edees" >
+    <
+    label class = "form-check-label fr" >
+    ED Entreprise, Économie, Société <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edse" >
+    <
+    label class = "form-check-label fr" >
+    ED Sciences et Environnements <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edspi" >
+    <
+    label class = "form-check-label fr" >
+    ED Sciences Physiques et de l 'Ingénieur < /
+    label > <
+    /div> <
+div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edsvs" >
+    <
+    label class = "form-check-label fr" >
+    ED Sciences de la Vie et de la Santé <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edsc" >
+    <
+    label class = "form-check-label fr" >
+    ED Sciences Chimiques <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edsp2" >
+    <
+    label class = "form-check-label fr" >
+    ED Sociétés, Politique, Santé Publique <
+    /label> < /
+    div > <
+    /div>
+
+<
+script type = "text/javascript" >
+
 
     function displayFilters() {
-        $('html').removeClass('header-quick-access-nav-tablet-open');
-        $('html').addClass('adum-cookie-open');
         $("input[name=who]").attr('checked', false);
         var selectedFilters = Cookies.get("ub-filter-adum");
         if (selectedFilters) {
@@ -50,45 +259,20 @@
     }
 
 
-    $(function() {
-        var modal = '<div id="adum_modal" class="wrapper">\n' +
-            '<img id="fr_language_adum" class="ccm-region-flag" src="/concrete/images/countries/fr.png" alt="fr">\n' +
-            '<img id="gb_language_adum" class="ccm-region-flag" src="/concrete/images/countries/gb.png" alt="gb">\n' +
-            '<p class="en">This preference can be changed using "ACCÈS RAPIDE" menu</p><p class="fr">Ces préférences peuvent être changées via le menu "ACCÈS RAPIDE"</p>\n' +
-            '<h3 class="en">Who am I ?</h3><h3 class="fr">Qui suis-je ?</h3>\n';
-        $.each(userfilters, function(index, value) {
-            modal += '<div class="form-check">\n' +
-                '    <input class="form-check-input" type="radio" name="who" value="' + index + '">\n' +
-                '    <label class="form-check-label en">\n' +
-                '    ' + value[0] + '\n' +
-                '    </label>\n' +
-                '    <label class="form-check-label fr">\n' +
-                '    ' + value[1] + '\n' +
-                '    </label>\n' +
-                '</div>\n';
-        });
-        modal += "<h3 class='en'>What doctoral school am I interested in ?</h3><h3 class='fr'>Quelle école doctorale m'intéresse ?</h3>\n";
-        $.each(edfilters, function(index, value) {
-            modal += '<div class="form-check">\n' +
-                '    <input class="form-check-input" type="radio" name="what" value="' + index + '">\n' +
-                '    <label class="form-check-label en">\n' +
-                '    ' + value[0] + '\n' +
-                '    </label>\n' +
-                '    <label class="form-check-label fr">\n' +
-                '    ' + value[1] + '\n' +
-                '     </label>\n' +
-                '</div>\n';
-        });
-        modal += '<button id="ferme_declenche_adum">Définir</button></div>';
-        $('footer').after(modal);
-        $('#declenche_adum').on('click', function() {
-            displayFilters();
-        });
-        $('#ferme_declenche_adum').on('click', function() {
+$(function() {
+    when('Cookies', function(Cookies) {
+        $("input[name=who]").change(function() {
             Cookies.set("ub-filter-adum", $('input[name="who"]:checked').val() + "|" + $('input[name="what"]:checked').val());
             filterInfoByClass();
-            $('html').removeClass('adum-cookie-open');
+            filterMenu();
         });
+
+        $("input[name=what]").change(function() {
+            Cookies.set("ub-filter-adum", $('input[name="who"]:checked').val() + "|" + $('input[name="what"]:checked').val());
+            filterInfoByClass();
+            filterMenu();
+        });
+
         $('#fr_language_adum').on('click', function() {
             $('#adum_modal .en').hide();
             $('#adum_modal .fr').show();
@@ -101,29 +285,199 @@
         });
         $('#adum_modal .en').hide();
         $('#adum_modal .fr').show();
-        when('Cookies', function (Cookies) {
-            if (!Cookies.get("ub-filter-adum")) {
-                displayFilters();
-            } else {
-                filterInfoByClass();
-            }
-        });
+        displayFilters();
 
     });
-</script>
-<style>
-    #adum_modal {
-        display: none;
+}); <
+/script>
+
+
+//My profile
+
+<
+div id = "adum_modal" >
+    <
+    h3 > Who am I ? < /h3> <
+div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "userstudent" >
+    <
+    label class = "form-check-label fr" >
+    Student <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "userphd" >
+    <
+    label class = "form-check-label fr" >
+    PhD Student <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "usersupervisor" >
+    <
+    label class = "form-check-label fr" >
+    PhD supervisor <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "who"
+value = "userother" >
+    <
+    label class = "form-check-label fr" >
+    Visitor <
+    /label> < /
+    div > <
+    h3 > What doctoral school am I interested in ? < /h3> <
+div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "ed*" >
+    <
+    label class = "form-check-label fr" >
+    All Doctoral Schools <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edmi" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Mathematics and Computer Science <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "eddroit" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Law <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edees" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Economic Sciences, Management and Demography <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edse" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Sciences and Environments <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edspi" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Physics and Engineering <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edsvs" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Health and Life Sciences <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edsc" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Chemical Sciences <
+    /label> < /
+    div > <
+    div class = "form-check" >
+    <
+    input class = "form-check-input"
+type = "radio"
+name = "what"
+value = "edsp2" >
+    <
+    label class = "form-check-label fr" >
+    Doctoral School Society, Politics, Public Health <
+    /label> < /
+    div > <
+    /div>
+
+<
+script type = "text/javascript" >
+
+
+    function displayFilters() {
+        $("input[name=who]").attr('checked', false);
+        var selectedFilters = Cookies.get("ub-filter-adum");
+        if (selectedFilters) {
+            var arr = selectedFilters.split('|');
+            $.each(arr, function(index, value) {
+                $('input[name="who"][value="' + value + '"]').attr('checked', 'checked');
+                $('input[name="what"][value="' + value + '"]').attr('checked', 'checked');
+            });
+        } else {
+            $('input[name="who"]:first').attr('checked', 'checked');
+            $('input[name="what"]:first').attr('checked', 'checked');
+        }
     }
-    
-    .adum-cookie-open #adum_modal {
-        display: block;
-    }
-    
-    .adum-cookie-open header,
-    .adum-cookie-open footer,
-    .adum-cookie-open #content-main,
-    .adum-cookie-open nav.breadcrumb {
-        display: none;
-    }
-</style>
+
+
+$(function() {
+    when('Cookies', function(Cookies) {
+        $("input[name=who]").change(function() {
+            Cookies.set("ub-filter-adum", $('input[name="who"]:checked').val() + "|" + $('input[name="what"]:checked').val());
+            filterInfoByClass();
+            filterMenu();
+        });
+
+        $("input[name=what]").change(function() {
+            Cookies.set("ub-filter-adum", $('input[name="who"]:checked').val() + "|" + $('input[name="what"]:checked').val());
+            filterInfoByClass();
+            filterMenu();
+        });
+        displayFilters();
+    });
+}); <
+/script>
