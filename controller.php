@@ -1000,7 +1000,7 @@ class Controller extends BlockController
             }
         } else {
             if ($this->filter != "-1") {
-                $valueByED = $byGroup[$this->filter];
+                $valueByED = $trainingsbyGroup[$this->filter];
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyByCategory => $valueByCategory) {
                         echo "<h3>" . $keyByCategory . "</h3>";
