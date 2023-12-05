@@ -612,8 +612,9 @@ class Controller extends BlockController
             $valueByED = $this->group_by("specialite", $valueByED);
         }
 
-
+        if($this->filter=="545"){
                  echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
+        }
 
         if ($this->filter != "-1" && !array_key_exists($this->filter, $membersbyGroup)) {
             if (strcmp($this->langage, "FR") == 0) {
