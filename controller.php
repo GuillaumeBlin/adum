@@ -581,7 +581,7 @@ class Controller extends BlockController
 
         $structuresbyGroup[0] = array();
         $structuresbyGroup[0][0] = array();
-        $structuresbyGroup[0][0]["libelle"] = "Laboratoire non spécifié";
+        $structuresbyGroup[0][0]["libelle"] = "Spécialité inconnue";
 
         $nmembers = array();
         foreach ($members as &$value) {
@@ -613,7 +613,7 @@ class Controller extends BlockController
         }
 
 
-        //         echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
+                 echo "<pre>" . var_export($membersbyGroup, true) . "</pre>";
 
         if ($this->filter != "-1" && !array_key_exists($this->filter, $membersbyGroup)) {
             if (strcmp($this->langage, "FR") == 0) {
