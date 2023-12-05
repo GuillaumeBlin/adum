@@ -99,9 +99,10 @@ class Controller extends BlockController
         return $result;
     }
 
-    private function totitle($string){
+    private function totitle($string)
+    {
         return ucfirst(strtolower($string));
-      }
+    }
 
     /* DISPLAY functions */
 
@@ -235,7 +236,7 @@ class Controller extends BlockController
             $res .= "<p>par ";
             $res .= '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
             $res .= " (" . $defense["these_laboratoire"] . ") </p>";
-            $res .= "<p>Cette soutenance a lieu le ".$defense["these_date_soutenance"]." à " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
+            $res .= "<p>Cette soutenance a lieu le " . $defense["these_date_soutenance"] . " à " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
             $res .= '<p>devant le jury composé de <ul>';
             foreach ($defense["soutenanceJury"] as $member) {
                 $res .= "<li>" . $member["jury"]["prenom"] . " " . $member["jury"]["nom"] . " - " . $member["jury"]["grade"] . " - " . $member["jury"]["etab"] . " - " . $member["jury"]["qualite"] . "</li>";
@@ -247,7 +248,7 @@ class Controller extends BlockController
             $res .= "<p>by ";
             $res .= '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
             $res .= " (" . $defense["these_laboratoire"] . ") </p>";
-            $res .= "<p>The defense will take place the ".$defense["these_date_soutenance"]." at " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
+            $res .= "<p>The defense will take place the " . $defense["these_date_soutenance"] . " at " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
             $res .= '<p>in front of the jury composed of <ul>';
             foreach ($defense["soutenanceJury"] as $member) {
                 $res .= "<li>" . $member["jury"]["prenom"] . " " . $member["jury"]["nom"] . " - " . $member["jury"]["grade"] . " - " . $member["jury"]["etab"] . " - " . $member["jury"]["qualite"] . "</li>";
@@ -258,7 +259,7 @@ class Controller extends BlockController
         $res .= "</li>";
         echo $res;
     }
-/*
+    /*
     private function display_defense_to_come($defense)
     {
 
@@ -332,7 +333,7 @@ class Controller extends BlockController
         usort($result, array($this, 'proposals_sorter'));
         $byGroup = $this->group_by("these_ED_code", $result);
         foreach ($byGroup as &$valueByED) {
-            $valueByED = $this->group_by("specialite", $valueByED);            
+            $valueByED = $this->group_by("specialite", $valueByED);
         }
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
         if ($this->filter != "-1" && !array_key_exists($this->filter, $byGroup)) {
@@ -342,15 +343,42 @@ class Controller extends BlockController
                 echo "No PhD proposal for this doctoral school.";
             }
         } else {
-            foreach ($byGroup as $keyByED => $valueByED) {
-                if ($this->filter == "-1") {
-                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
-                } else {
-                    if ($keyByED != $this->filter) {
-                        continue;
+            if ($this->filter != "-1") {
+                $valueByED = $byGroup[$this->filter];
+                $datas = array();
+
+
+                foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                    $i = count($valueBySpeciality);
+                    if ($i > 1) {
+                        if (strcmp($this->langage, "FR") == 0) {
+                            $datas["Sujets en " . $keyBySpeciality] = $i;
+                        } else {
+                            $datas["Subjects in " . $keyBySpeciality] = $i;
+                        }
+                    } else {
+                        if (strcmp($this->langage, "FR") == 0) {
+                            $datas["Sujet en " . $keyBySpeciality] = $i;
+                        } else {
+                            $datas["Subject in " . $keyBySpeciality] = $i;
+                        }
                     }
                 }
-                $datas = array();
+                $this->show_key_numbers($datas);
+                if (strcmp($this->details, "True") == 0) {
+                    foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                        echo "<h4>" . $keyBySpeciality . "</h4>";
+                        echo "<ul>";
+                        foreach ($valueBySpeciality as $prop) {
+                            $this->display_proposition($prop);
+                        }
+                        echo "</ul>";
+                    }
+                }
+            } else {
+                foreach ($byGroup as $keyByED => $valueByED) {
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                    $datas = array();
 
 
                     foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
@@ -372,11 +400,7 @@ class Controller extends BlockController
                     $this->show_key_numbers($datas);
                     if (strcmp($this->details, "True") == 0) {
                         foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
-                            if ($this->filter != "-1") {
-                                echo "<h4>" . $keyBySpeciality . "</h4>";
-                            } else {
-                                echo "<h5>" . $keyBySpeciality . "</h5>";
-                            }
+                            echo "<h5>" . $keyBySpeciality . "</h5>";
                             echo "<ul>";
                             foreach ($valueBySpeciality as $prop) {
                                 $this->display_proposition($prop);
@@ -384,7 +408,7 @@ class Controller extends BlockController
                             echo "</ul>";
                         }
                     }
-                
+                }
             }
         }
     }
@@ -416,7 +440,7 @@ class Controller extends BlockController
         $cpt = 0;
         foreach ($datas as $key => $value) {
             if ($cpt % 4 == 0) {
-                echo '<div class="home-key-numbers-inner">';// onmouseover="display_countup()"
+                echo '<div class="home-key-numbers-inner">'; // onmouseover="display_countup()"
                 echo '<ul>';
             }
             $cpt = $cpt + 1;
@@ -437,7 +461,7 @@ class Controller extends BlockController
         echo '<script>';
         echo 'register_countup();';
         echo '</script>';
-      /*  echo '<script>';
+        /*  echo '<script>';
         echo 'jQuery(function($) {';
         echo "var \$countup = \$('.countup');\n";
         echo "\$.when('countup', function() {\n";
@@ -522,15 +546,8 @@ class Controller extends BlockController
                 echo "No doctors yet this year for this doctoral school.";
             }
         } else {
-
-            foreach ($byGroup as $keyByED => $valueByED) {
-                if ($this->filter == "-1") {
-                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
-                } else {
-                    if ($keyByED != $this->filter) {
-                        continue;
-                    }
-                }
+            if ($this->filter != "-1") {
+                $valueByED = $byGroup[$this->filter];
                 $datas = array();
                 foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                     $i = count($valueBySpeciality);
@@ -552,16 +569,44 @@ class Controller extends BlockController
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
 
-                        if ($this->filter != "-1") {
-                            echo "<h3>" . $keyBySpeciality . "</h3>";
-                        } else {
-                            echo "<h4>" . $keyBySpeciality . "</h4>";
-                        }
+                        echo "<h3>" . $keyBySpeciality . "</h3>";
                         echo "<ul>";
                         foreach ($valueBySpeciality as $student) {
                             $this->display_defense($student);
                         }
                         echo "</ul>";
+                    }
+                }
+            } else {
+                foreach ($byGroup as $keyByED => $valueByED) {
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                    $datas = array();
+                    foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                        $i = count($valueBySpeciality);
+                        if ($i > 1) {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Docteurs / Docteures en " . $keyBySpeciality] = $i;
+                            } else {
+                                $datas["Doctors in " . $keyBySpeciality] = $i;
+                            }
+                        } else {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Docteur / Docteure en " . $keyBySpeciality] = $i;
+                            } else {
+                                $datas["Doctor in " . $keyBySpeciality] = $i;
+                            }
+                        }
+                    }
+                    $this->show_key_numbers($datas);
+                    if (strcmp($this->details, "True") == 0) {
+                        foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                            echo "<h4>" . $keyBySpeciality . "</h4>";
+                            echo "<ul>";
+                            foreach ($valueBySpeciality as $student) {
+                                $this->display_defense($student);
+                            }
+                            echo "</ul>";
+                        }
                     }
                 }
             }
@@ -588,8 +633,8 @@ class Controller extends BlockController
             if (!array_key_exists($value["matricule_structure"], $structuresbyGroup)) {
                 $value["matricule_structure"] = 0;
             }
-            if(strcmp($this->adt_hdr_only, "True") == 0) {                
-                if((strcmp($value["ADT"], "non") == 0)&&(strcmp($value["HDR"], "non") == 0)){
+            if (strcmp($this->adt_hdr_only, "True") == 0) {
+                if ((strcmp($value["ADT"], "non") == 0) && (strcmp($value["HDR"], "non") == 0)) {
                     unset($value);
                     continue;
                 }
@@ -612,7 +657,7 @@ class Controller extends BlockController
             $valueByED = $this->group_by("specialite", $valueByED);
         }
 
-        
+
         if ($this->filter != "-1" && !array_key_exists($this->filter, $membersbyGroup)) {
             if (strcmp($this->langage, "FR") == 0) {
                 echo "Aucun encadrant inscrit et aucune encadrante inscrite dans cette école doctorale.";
@@ -620,53 +665,81 @@ class Controller extends BlockController
                 echo "No PhD supervisor registered to this doctoral school.";
             }
         } else {
-            foreach ($membersbyGroup as $keyByED => $valueByED) {
-                if ($keyByED == "") {
-                    continue;
-                }
-                if ($this->filter == "-1") {
-                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
-                } else {
-                    if ($keyByED != $this->filter) {
-                        continue;
-                    }
-                }
+            if ($this->filter != "-1") {
+                $valueByED = $membersbyGroup[$this->filter];
                 $datas = array();
                 foreach ($valueByED as $keyByStructure => $valueByStructure) {
                     $i = count($valueByStructure);
-                    if(strcmp($keyByStructure, "") == 0){
-                        $keyByStructure="Spécialité inconnue";
+                    if (strcmp($keyByStructure, "") == 0) {
+                        $keyByStructure = "Spécialité inconnue";
                     }
                     if ($i > 1) {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrants / Encadrantes - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Encadrants / Encadrantes - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
-                            $datas["PhD supervisors - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["PhD supervisors - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
                     } else {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrant / Encadrante - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Encadrant / Encadrante - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
-                            $datas["PhD supervisor - " . $keyByStructure]=$i;//$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["PhD supervisor - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
                     }
                 }
                 $this->show_key_numbers($datas);
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyByStructure => $valueByStructure) {
-                        if(strcmp($keyByStructure, "") == 0){
-                        $keyByStructure="Spécialité inconnue";
+                        if (strcmp($keyByStructure, "") == 0) {
+                            $keyByStructure = "Spécialité inconnue";
                         }
-                        if ($this->filter != "-1") {
-                            echo "<h3>" . $this->display_speciality($keyByStructure) . "</h3>";
-                        } else {
-                            echo "<h4>" . $this->display_speciality($keyByStructure). "</h4>";
-                        }
+                        echo "<h3>" . $this->display_speciality($keyByStructure) . "</h3>";
                         echo '<ul class="card-columns" style="column-count: 3;">';
                         foreach ($valueByStructure as $member) {
                             $this->display_member_annu($member);
                         }
                         echo "</ul>";
+                    }
+                }
+            } else {
+                foreach ($membersbyGroup as $keyByED => $valueByED) {
+                    if ($keyByED == "") {
+                        continue;
+                    }
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                    $datas = array();
+                    foreach ($valueByED as $keyByStructure => $valueByStructure) {
+                        $i = count($valueByStructure);
+                        if (strcmp($keyByStructure, "") == 0) {
+                            $keyByStructure = "Spécialité inconnue";
+                        }
+                        if ($i > 1) {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Encadrants / Encadrantes - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            } else {
+                                $datas["PhD supervisors - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            }
+                        } else {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Encadrant / Encadrante - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            } else {
+                                $datas["PhD supervisor - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            }
+                        }
+                    }
+                    $this->show_key_numbers($datas);
+                    if (strcmp($this->details, "True") == 0) {
+                        foreach ($valueByED as $keyByStructure => $valueByStructure) {
+                            if (strcmp($keyByStructure, "") == 0) {
+                                $keyByStructure = "Spécialité inconnue";
+                            }
+                            echo "<h3>" . $this->display_speciality($keyByStructure) . "</h3>";
+                            echo '<ul class="card-columns" style="column-count: 3;">';
+                            foreach ($valueByStructure as $member) {
+                                $this->display_member_annu($member);
+                            }
+                            echo "</ul>";
+                        }
                     }
                 }
             }
@@ -709,7 +782,7 @@ class Controller extends BlockController
         foreach ($byGroup as &$valueByED) {
             $valueByED = $this->group_by("these_specialite", $valueByED);
         }
-        
+
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
 
         if ($this->filter != "-1" && !array_key_exists($this->filter, $byGroup)) {
@@ -721,48 +794,7 @@ class Controller extends BlockController
         } else {
             if ($this->filter != "-1") {
                 $datas = array();
-                foreach ($byGroup[$this->filter] as $keyBySpeciality => $valueBySpeciality) {
-                    $i = count($valueBySpeciality);
-                    if ($i > 1) {
-                        if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Doctorants / Doctorantes en " . $keyBySpeciality] = $i;
-                        } else {
-                            $datas["PhD students in " . $keyBySpeciality] = $i;
-                        }
-                    } else {
-                        if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Doctorant / Doctorante en " . $keyBySpeciality] = $i;
-                        } else {
-                            $datas["PhD student in " . $keyBySpeciality] = $i;
-                        }
-                    }
-                }
-                $this->show_key_numbers($datas);
-                if (strcmp($this->details, "True") == 0) {
-                    foreach ($byGroup[$this->filter] as $keyBySpeciality => $valueBySpeciality) {
-                        if ($this->filter != "-1") {
-                            echo "<h3>" . $keyBySpeciality . "</h3>";
-                        } else {
-                            echo "<h4>" . $keyBySpeciality . "</h4>";
-                        }
-                        echo "<ul>";
-                        foreach ($valueBySpeciality as $student) {
-                            $this->display_annu($student);
-                        }
-                        echo "</ul>";
-                    }
-                }
-            }else{
-
-            foreach ($byGroup as $keyByED => $valueByED) {
-                if ($this->filter == "-1") {
-                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
-                } else {
-                    if ($keyByED != $this->filter) {
-                        continue;
-                    }
-                }
-                $datas = array();
+                $valueByED = $byGroup[$this->filter];
                 foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                     $i = count($valueBySpeciality);
                     if ($i > 1) {
@@ -782,11 +814,7 @@ class Controller extends BlockController
                 $this->show_key_numbers($datas);
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
-                        if ($this->filter != "-1") {
-                            echo "<h3>" . $keyBySpeciality . "</h3>";
-                        } else {
-                            echo "<h4>" . $keyBySpeciality . "</h4>";
-                        }
+                        echo "<h3>" . $keyBySpeciality . "</h3>";
                         echo "<ul>";
                         foreach ($valueBySpeciality as $student) {
                             $this->display_annu($student);
@@ -794,18 +822,49 @@ class Controller extends BlockController
                         echo "</ul>";
                     }
                 }
+            } else {
+
+                foreach ($byGroup as $keyByED => $valueByED) {
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                    $datas = array();
+                    foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                        $i = count($valueBySpeciality);
+                        if ($i > 1) {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Doctorants / Doctorantes en " . $keyBySpeciality] = $i;
+                            } else {
+                                $datas["PhD students in " . $keyBySpeciality] = $i;
+                            }
+                        } else {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Doctorant / Doctorante en " . $keyBySpeciality] = $i;
+                            } else {
+                                $datas["PhD student in " . $keyBySpeciality] = $i;
+                            }
+                        }
+                    }
+                    $this->show_key_numbers($datas);
+                    if (strcmp($this->details, "True") == 0) {
+                        foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                            echo "<h4>" . $keyBySpeciality . "</h4>";
+                            echo "<ul>";
+                            foreach ($valueBySpeciality as $student) {
+                                $this->display_annu($student);
+                            }
+                            echo "</ul>";
+                        }
+                    }
+                }
             }
-        }
         }
     }
 
     /*Incoming defense*/
     private function load_phd_defense_by_ed()
     {
-               
+
         $students = $this->retrieve_json("soutenances", date("Y"));
 
-//        echo "<pre>" . var_export($students, true) . "</pre>";
         $students = $students["data"][0];
         foreach ($students as &$value) {
             $value = $this->array_extract($value, [
@@ -831,7 +890,7 @@ class Controller extends BlockController
             ]);
         }
 
-        
+
         $students = array_filter($students, function ($student) {
             return time() <= strtotime($student["these_date_soutenance"]);
         });
@@ -851,14 +910,8 @@ class Controller extends BlockController
                 echo "No PhD defense upcoming for this doctoral school.";
             }
         } else {
-            foreach ($byGroup as $keyByED => $valueByED) {
-                if ($this->filter == "-1") {
-                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
-                } else {
-                    if ($keyByED != $this->filter) {
-                        continue;
-                    }
-                }
+            if ($this->filter != "-1") {
+                $valueByED = $byGroup[$this->filter];
                 $datas = array();
                 foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                     $i = count($valueBySpeciality);
@@ -879,16 +932,44 @@ class Controller extends BlockController
                 $this->show_key_numbers($datas);
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
-                        if ($this->filter != "-1") {
-                            echo "<h3>" . $keyBySpeciality . "</h3>";
-                        } else {
-                            echo "<h4>" . $keyBySpeciality . "</h4>";
-                        }
+                        echo "<h3>" . $keyBySpeciality . "</h3>";
                         echo "<ul>";
                         foreach ($valueBySpeciality as $student) {
                             $this->display_defense_to_come($student);
                         }
                         echo "</ul>";
+                    }
+                }
+            } else {
+                foreach ($byGroup as $keyByED => $valueByED) {
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                    $datas = array();
+                    foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                        $i = count($valueBySpeciality);
+                        if ($i > 1) {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Soutenances en " . $keyBySpeciality] = $i;
+                            } else {
+                                $datas["PhD defenses in " . $keyBySpeciality] = $i;
+                            }
+                        } else {
+                            if (strcmp($this->langage, "FR") == 0) {
+                                $datas["Soutenance en " . $keyBySpeciality] = $i;
+                            } else {
+                                $datas["PhD defense in " . $keyBySpeciality] = $i;
+                            }
+                        }
+                    }
+                    $this->show_key_numbers($datas);
+                    if (strcmp($this->details, "True") == 0) {
+                        foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
+                            echo "<h4>" . $keyBySpeciality . "</h4>";
+                            echo "<ul>";
+                            foreach ($valueBySpeciality as $student) {
+                                $this->display_defense_to_come($student);
+                            }
+                            echo "</ul>";
+                        }
                     }
                 }
             }
@@ -918,44 +999,30 @@ class Controller extends BlockController
                 echo "No training courses for this doctoral school.";
             }
         } else {
-            foreach ($trainingsbyGroup as $keyByED => $valueByED) {
-                if ($this->filter == "-1") {
-                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
-                } else {
-                    if ($keyByED != $this->filter) {
-                        continue;
-                    }
-                }
-                /*$datas = array();
-                foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
-                    $i = count($valueBySpeciality);
-                    if ($i > 1) {
-                        if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Soutenances en " . $keyBySpeciality] = $i;
-                        } else {
-                            $datas["PhD defenses in " . $keyBySpeciality] = $i;
-                        }
-                    } else {
-                        if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Soutenance en " . $keyBySpeciality] = $i;
-                        } else {
-                            $datas["PhD defense in " . $keyBySpeciality] = $i;
-                        }
-                    }
-                }
-                $this->show_key_numbers($datas);*/
+            if ($this->filter != "-1") {
+                $valueByED = $byGroup[$this->filter];
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyByCategory => $valueByCategory) {
-                        if ($this->filter != "-1") {
-                            echo "<h3>" . $keyByCategory . "</h3>";
-                        } else {
-                            echo "<h4>" . $keyByCategory . "</h4>";
-                        }
+                        echo "<h3>" . $keyByCategory . "</h3>";
                         echo "<ul>";
                         foreach ($valueByCategory as $training) {
                             $this->display_training($training);
                         }
                         echo "</ul>";
+                    }
+                }
+            } else {
+                foreach ($trainingsbyGroup as $keyByED => $valueByED) {
+                    echo "<h3>" . $this->codes[$keyByED] . "</h3>";
+                    if (strcmp($this->details, "True") == 0) {
+                        foreach ($valueByED as $keyByCategory => $valueByCategory) {
+                            echo "<h4>" . $keyByCategory . "</h4>";
+                            echo "<ul>";
+                            foreach ($valueByCategory as $training) {
+                                $this->display_training($training);
+                            }
+                            echo "</ul>";
+                        }
                     }
                 }
             }
