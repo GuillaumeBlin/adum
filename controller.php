@@ -731,8 +731,9 @@ class Controller extends BlockController
                         continue;
                     }
                 }
-                echo "<b>".$keyByED."-".$this->filter."</b><br/>";
-
+                if($this->filter=="545"){
+                    echo "<pre>" . var_export($valueByED, true) . "</pre>";
+                }
                 $datas = array();
                 foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                     $i = count($valueBySpeciality);
