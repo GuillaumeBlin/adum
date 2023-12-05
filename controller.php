@@ -723,8 +723,8 @@ class Controller extends BlockController
             }
         } else {
             foreach ($byGroup as $keyByED => $valueByED) {
-                if($keyByED=="545"){
-                    echo "<pre>" . var_export($valueByED, true) . "</pre>";
+                if($this->filter=="545" && $keyByED=="545"){
+                    echo "<pre>" . var_export($byGroup["545"], true) . "</pre>";
                 }
                 if ($this->filter == "-1") {
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
