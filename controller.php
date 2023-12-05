@@ -723,7 +723,6 @@ class Controller extends BlockController
             }
         } else {
             foreach ($byGroup as $keyByED => $valueByED) {
-                echo "<b>".$keyByED."-".$this->filter."</b><br/>";
                 
                 if ($this->filter == "-1") {
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
@@ -732,6 +731,8 @@ class Controller extends BlockController
                         continue;
                     }
                 }
+                echo "<b>".$keyByED."-".$this->filter."</b><br/>";
+
                 $datas = array();
                 foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
                     $i = count($valueBySpeciality);
