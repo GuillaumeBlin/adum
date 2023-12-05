@@ -707,7 +707,7 @@ class Controller extends BlockController
 
         $byGroup = $this->group_by("these_ED_code", $students);
         foreach ($byGroup as &$valueByED) {
-            $valueByED = $this->group_by("these_specialite", $valueByED);
+            $valueByED = $this->group_by("these_laboratoire", $valueByED);
         }
         
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
