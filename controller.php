@@ -719,6 +719,41 @@ class Controller extends BlockController
                 echo "No PhD students registered to this doctoral school.";
             }
         } else {
+            if ($this->filter != "-1") {
+                $datas = array();
+                foreach ($byGroup[$this->filter] as $keyBySpeciality => $valueBySpeciality) {
+                    $i = count($valueBySpeciality);
+                    if ($i > 1) {
+                        if (strcmp($this->langage, "FR") == 0) {
+                            $datas["Doctorants / Doctorantes en " . $keyBySpeciality] = $i;
+                        } else {
+                            $datas["PhD students in " . $keyBySpeciality] = $i;
+                        }
+                    } else {
+                        if (strcmp($this->langage, "FR") == 0) {
+                            $datas["Doctorant / Doctorante en " . $keyBySpeciality] = $i;
+                        } else {
+                            $datas["PhD student in " . $keyBySpeciality] = $i;
+                        }
+                    }
+                }
+                $this->show_key_numbers($datas);
+                if (strcmp($this->details, "True") == 0) {
+                    foreach ($byGroup[$this->filter] as $keyBySpeciality => $valueBySpeciality) {
+                        if ($this->filter != "-1") {
+                            echo "<h3>" . $keyBySpeciality . "</h3>";
+                        } else {
+                            echo "<h4>" . $keyBySpeciality . "</h4>";
+                        }
+                        echo "<ul>";
+                        foreach ($valueBySpeciality as $student) {
+                            $this->display_annu($student);
+                        }
+                        echo "</ul>";
+                    }
+                }
+            }else{
+
             foreach ($byGroup as $keyByED => $valueByED) {
                 if ($this->filter == "-1") {
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
@@ -760,6 +795,7 @@ class Controller extends BlockController
                     }
                 }
             }
+        }
         }
     }
 
