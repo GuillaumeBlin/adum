@@ -710,7 +710,8 @@ class Controller extends BlockController
             $valueByED = $this->group_by("these_specialite", $valueByED);
         }
         if($this->filter=="545"){
-            echo "<pre>" . var_export($byGroup["545"], true) . "</pre>";
+        //    echo "<pre>" . var_export($byGroup["545"], true) . "</pre>";
+        //Ethnologie - Option Antropologie sociale et culturelle
         }
 
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
