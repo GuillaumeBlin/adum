@@ -723,7 +723,7 @@ class Controller extends BlockController
             }
         } else {
             foreach ($byGroup as $keyByED => $valueByED) {
-                //echo "<b>".$this->filter."</b><br/>";
+                echo "<b>".$this->filter."</b><br/>";
                 
                 if ($this->filter == "-1") {
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
