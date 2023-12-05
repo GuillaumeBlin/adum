@@ -728,13 +728,13 @@ class Controller extends BlockController
                 //Ethnologie - Option Antropologie sociale et culturelle
                 }
             foreach ($byGroup as $keyByED => $valueByED) {
-                if($this->filter=="545"){
-                    //echo "<pre>ICI " . var_export($byGroup[545], true) . "</pre>";
+                if($keyByED==545){
+                    echo "<pre>ICI " . var_export($byGroup[545], true) . "</pre>";
                 }
                 if ($this->filter == "-1") {
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
                 } else {
-                    if ($keyByED !== $this->filter) {
+                    if ($keyByED != $this->filter) {
                         continue;
                     }
                 }
