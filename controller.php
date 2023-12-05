@@ -724,7 +724,7 @@ class Controller extends BlockController
             }
         } else {
             if($this->filter=="545"){
-              //      echo "<pre>" . var_export($byGroup["545"], true) . "</pre>";
+                    echo "<pre>LA " . var_export($byGroup[545], true) . "</pre>";
                 //Ethnologie - Option Antropologie sociale et culturelle
                 }
             foreach ($byGroup as $keyByED => $valueByED) {
