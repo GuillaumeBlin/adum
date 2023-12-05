@@ -711,7 +711,7 @@ class Controller extends BlockController
         }
         if($this->filter=="545"){
             echo "<pre>" . var_export($byGroup, true) . "</pre>";
-   }
+        }
 
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
 
@@ -730,10 +730,6 @@ class Controller extends BlockController
                     if ($keyByED != $this->filter) {
                         continue;
                     }
-                }
-                if($this->filter=="545"){
-                    echo $keyByED;
-                    echo "<pre>" . var_export($valueByED, true) . "</pre>";
                 }
                 $datas = array();
                 foreach ($valueByED as $keyBySpeciality => $valueBySpeciality) {
