@@ -913,7 +913,7 @@ class Controller extends BlockController
 
 
         $students = array_filter($students, function ($student) {
-            return time() <= strtotime($student["these_date_soutenance"]);
+            return strtotime("today") <= strtotime($student["these_date_soutenance"]);
         });
 
         usort($students, array($this, 'defense_sorter'));
