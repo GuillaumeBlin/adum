@@ -21,10 +21,17 @@ $year_needed = array("doctors_of_the_year", "annu");
 			<option value="<?php echo $key; ?>" <?php if (strcmp($filter, $key) === 0) { ?>selected<?php } ?>> <?php echo $opt; ?></option>
 		<?php } ?>
 	</select>
-	<br/><label class="control-label" for="adt_hdr_only">ADT/HDR seulement</label>
-	<select id="adt_hdr_only" name="adt_hdr_only" class="ccm-input-select">		
-		<option value="True" <?php if (strcmp($adt_hdr_only, "True") === 0) { ?>selected<?php } ?>> Oui</option>
-		<option value="False" <?php if (strcmp($adt_hdr_only, "False") === 0) { ?>selected<?php } ?>> Non</option>
+	<br/><label class="control-label" for="hdr_adt_only">ADT/HDR seulement</label>
+	<select id="hdr_adt_only" name="hdr_adt_only" class="ccm-input-select">		
+		<option value="All" <?php if (strcmp($hdr_only, "All") === 0) { ?>selected<?php } ?>> Toutes et tous</option>
+		<option value="HDR_ADT" <?php if (strcmp($hdr_only, "HDR_ADT") === 0) { ?>selected<?php } ?>> Seulement les HDRs et ADTs</option>
+		<option value="HDR" <?php if (strcmp($hdr_only, "HDR") === 0) { ?>selected<?php } ?>> Seulement les HDRs</option>
+		<option value="ADT" <?php if (strcmp($hdr_only, "ADT") === 0) { ?>selected<?php } ?>> Seulement les ADTs</option>
+	</select>
+	<br/><label class="control-label" for="active_only">Collègues actives et actifs seulement</label>
+	<select id="adt_only" name="active_only" class="ccm-input-select">		
+		<option value="True" <?php if (strcmp($active_only, "True") === 0) { ?>selected<?php } ?>> Oui</option>
+		<option value="False" <?php if (strcmp($active_only, "False") === 0) { ?>selected<?php } ?>> Non</option>
 	</select>
 
 	<br/><label class="control-label" for="year">Année affichée</label>

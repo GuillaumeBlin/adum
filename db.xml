@@ -24,7 +24,10 @@
 			<default value="True"/>
 		</field>
 	
-		<field name="adt_hdr_only" type="text">
+		<field name="hdr_adt_only" type="text">
+			<default value="All"/>
+		</field>		
+		<field name="active_only" type="text">
 			<default value="False"/>
 		</field>
 		

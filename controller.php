@@ -633,12 +633,33 @@ class Controller extends BlockController
             if (!array_key_exists($value["matricule_structure"], $structuresbyGroup)) {
                 $value["matricule_structure"] = 0;
             }
-            if (strcmp($this->adt_hdr_only, "True") == 0) {
-                if ((strcmp($value["ADT"], "non") == 0) && (strcmp($value["HDR"], "non") == 0)) {
+            if (strcmp($this->hdr_adt_only, "All") !== 0) {
+                if (strcmp($this->hdr_adt_only, "HDR_ADT") == 0) {
+                    if ((strcmp($value["ADT"], "non") == 0) && (strcmp($value["HDR"], "non") == 0)) {
+                        unset($value);
+                        continue;
+                    }
+                }
+                if (strcmp($this->hdr_adt_only, "HDR") == 0) {
+                    if (strcmp($value["HDR"], "non") == 0) {
+                        unset($value);
+                        continue;
+                    }
+                }
+                if (strcmp($this->hdr_adt_only, "ADT") == 0) {
+                    if (strcmp($value["ADT"], "non") == 0) {
+                        unset($value);
+                        continue;
+                    }
+                }                                
+            }
+            if (strcmp($this->active_only, "True") == 0) {
+                if (strcmp($value["chercheur_en_activite"], "non") == 0) {
                     unset($value);
                     continue;
                 }
             }
+
             $i = count($value["ED_code"]);
             if ($i == 0) {
                 unset($value);
