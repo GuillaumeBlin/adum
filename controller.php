@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+//declare(strict_types=1);
 
 namespace Application\Block\Adum;
 
@@ -29,12 +29,12 @@ class Controller extends BlockController
     );
     protected $codes = array("" => "Collège des Ecoles Doctorales", "41" => "ED Droit", "42" => "ED Entreprise Economie Société", "40" => "ED Sciences Chimiques", "154" => "ED Sciences de la Vie et de la Santé", "304" => "ED Sciences et environnements", "209" => "ED Sciences Physiques et de l'Ingénieur", "545" => "ED Sociétés, Politique, Santé Publique", "39" => "ED Mathématiques et Informatique");
 
-    public function getBlockTypeName(): string
+    public function getBlockTypeName()
     {
         return 'ADUM';
     }
 
-    public function getBlockTypeDescription(): string
+    public function getBlockTypeDescription()
     {
         return t('A simple block gathering ADUM public information');
     }
@@ -46,16 +46,17 @@ class Controller extends BlockController
             $error->add(t('Invalid data type, data must be an array.'));
             return $error;
         }
-
-        $parsing = $args['parsing'] ?? null;
-        if (!$parsing) {
+        if(empty($args['parsing'])) $parsing = null;
+        else $parsing = $args['parsing'];
+        //$parsing = $args['parsing'] ?? null;
+        if (is_null($parsing)) {
             $error->add(t('You must select a parsing option.'));
         }
 
         return $error;
     }
 
-    public function save($args): void
+    public function save($args)
     {
         parent::save($args);
     }
