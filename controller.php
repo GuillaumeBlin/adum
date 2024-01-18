@@ -542,7 +542,7 @@ class Controller extends BlockController
 
         if ($this->filter != "-1" && !array_key_exists($this->filter, $byGroup)) {
             if (strcmp($this->langage, "FR") == 0) {
-                echo "Pas de docteur, ni docteure encore cette année pour cette école doctorale.";
+                echo "Pas de diplômée, ni diplômé encore cette année pour cette école doctorale.";
             } else {
                 echo "No doctors yet this year for this doctoral school.";
             }
