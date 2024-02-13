@@ -314,7 +314,7 @@ class Controller extends BlockController
 
     private function trainings_sorter(array $a, array $b)
     {
-        return [$a['ED_code'], $a['categorie'], $a['mod']] <=> [$b['ED_code'], $b['categorie'], $b['mod']];
+        return [$a['ED_code'], $a['categorie'], $a['libelle']] <=> [$b['ED_code'], $b['categorie'], $b['libelle']];
     }
 
     /* LOADING functions */
@@ -1025,7 +1025,7 @@ class Controller extends BlockController
                 $valueByED = $trainingsbyGroup[$this->filter];
                 if (strcmp($this->details, "True") == 0) {
                     foreach ($valueByED as $keyByCategory => $valueByCategory) {
-                        echo "<h3>" . $keyByCategory . "</h3>";
+                        echo "<h3>" . substr($keyByCategory,3) . "</h3>";
                         echo "<ul>";
                         foreach ($valueByCategory as $training) {
                             $this->display_training($training);
@@ -1038,7 +1038,7 @@ class Controller extends BlockController
                     echo "<h3>" . $this->codes[$keyByED] . "</h3>";
                     if (strcmp($this->details, "True") == 0) {
                         foreach ($valueByED as $keyByCategory => $valueByCategory) {
-                            echo "<h4>" . $keyByCategory . "</h4>";
+                            echo "<h4>" . substr($keyByCategory,3) . "</h4>";
                             echo "<ul>";
                             foreach ($valueByCategory as $training) {
                                 $this->display_training($training);
