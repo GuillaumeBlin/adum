@@ -108,8 +108,12 @@ class Controller extends BlockController
     /* DISPLAY functions */
 
     private function display_training($modT)
-    {
-        echo "<li><a href='https://adum.fr/script/formations.pl?mod=" . $modT['mod'] . "&site=UBX'>" . $modT['libelle'] . "</a> - " . $modT['date_debut'] . "</li>";
+    {        
+        if (strcmp($modT['etat'], "Clôturé") == 0) {
+            echo "<li><a href='https://adum.fr/script/formations.pl?mod=" . $modT['mod'] . "&site=UBX'>" . $modT['libelle'] . "</a> - " . $modT['date_debut'] . " <img src='https://guillaume-blin.emi.u-bordeaux.fr/close.png' width='15px'></li>";
+        }else{
+            echo "<li><a href='https://adum.fr/script/formations.pl?mod=" . $modT['mod'] . "&site=UBX'>" . $modT['libelle'] . "</a> - " . $modT['date_debut'] . " </li>";
+        }
     }
 
     private function display_member_annu($member)
