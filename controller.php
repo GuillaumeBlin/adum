@@ -682,7 +682,7 @@ class Controller extends BlockController
 
         if ($this->filter != "-1" && !array_key_exists($this->filter, $membersbyGroup)) {
             if (strcmp($this->langage, "FR") == 0) {
-                echo "Aucun encadrant inscrit et aucune encadrante inscrite dans cette école doctorale.";
+                echo "Aucun directeur inscrit et aucune directrice inscrite dans cette école doctorale.";
             } else {
                 echo "No PhD supervisor registered to this doctoral school.";
             }
@@ -697,13 +697,13 @@ class Controller extends BlockController
                     }
                     if ($i > 1) {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrants / Encadrantes - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Directeurs / Directrices - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
                             $datas["PhD supervisors - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
                     } else {
                         if (strcmp($this->langage, "FR") == 0) {
-                            $datas["Encadrant / Encadrante - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                            $datas["Directeur / Directrice - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         } else {
                             $datas["PhD supervisor - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                         }
@@ -737,13 +737,13 @@ class Controller extends BlockController
                         }
                         if ($i > 1) {
                             if (strcmp($this->langage, "FR") == 0) {
-                                $datas["Encadrants / Encadrantes - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                                $datas["Directeurs / Directrices - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                             } else {
                                 $datas["PhD supervisors - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                             }
                         } else {
                             if (strcmp($this->langage, "FR") == 0) {
-                                $datas["Encadrant / Encadrante - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
+                                $datas["Directeur / Directrice - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                             } else {
                                 $datas["PhD supervisor - " . $keyByStructure] = $i; //$structuresbyGroup[$keyByStructure][0]["libelle"]] = $i;
                             }
