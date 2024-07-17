@@ -34,9 +34,9 @@ function group_by($key, $data)
 function addEvent($date, $desc, $place, $details, $lang)
     {
         if (strcmp($lang, "FR") == 0) {
-            $parentPage =  Page::getByPath('/evenements/soutenances');
+            $parentPage =  Page::getByPath('/soutenances');
         } else {
-            $parentPage =  Page::getByPath('/en/events/defense');
+            $parentPage =  Page::getByPath('/en/defense');
         }
         if (is_object($parentPage)) {
             $pageType = \PageType::getByHandle('evenement');
