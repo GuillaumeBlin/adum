@@ -68,7 +68,11 @@ class Controller extends BlockController
         $res = "";
         while (!(is_array($res))) {
             if (($type == "inscrits") || ($type == "soutenances")) {
-                $res = json_decode(file_get_contents(realpath(dirname(__FILE__)) . str_replace(".json", "_" . $year . ".json", $this->jsonFiles[$type])), true);
+                if(strcmp($year,"current")==0)
+                    $res = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles[$type]), true);
+                else{
+                    $res = json_decode(file_get_contents(realpath(dirname(__FILE__)) . str_replace(".json", "_" . $year . ".json", $this->jsonFiles[$type])), true);
+                }
             } else {
                 $res = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles[$type]), true);
             }

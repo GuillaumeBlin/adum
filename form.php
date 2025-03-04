@@ -44,7 +44,8 @@ if(empty($langage)) $langage='FR';
 
 	<br/><label class="control-label" for="year">Année affichée</label>
 	<select id="year" name="year" class="ccm-input-select">
-		<?php for($i=2016;$i<date("Y")+1;$i++) { ?>
+		<option value="current" <?php if (strcmp($year, $i) === 0) { ?>selected<?php } ?>>current</option>	
+	<?php for($i=2016;$i<date("Y")+1;$i++) { ?>
 			<option value="<?php echo $i; ?>" <?php if (strcmp($year, $i) === 0) { ?>selected<?php } ?>> <?php echo $i; ?> - <?php echo $i+1; ?></option>
 		<?php } ?>
 	</select>
