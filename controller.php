@@ -801,6 +801,7 @@ class Controller extends BlockController
                 "these_directeur_these_prenom",
                 "these_laboratoire",
                 "these_specialite",
+                "these_specialite_en",
                 "these_titre",
                 "these_titre_anglais"
             ]);
@@ -810,7 +811,11 @@ class Controller extends BlockController
 
         $byGroup = $this->group_by("these_ED_code", $students);
         foreach ($byGroup as &$valueByED) {
-            $valueByED = $this->group_by("these_specialite", $valueByED);
+            if (strcmp($this->langage, "FR") == 0) {
+                $valueByED = $this->group_by("these_specialite", $valueByED);
+            }else{
+                $valueByED = $this->group_by("these_specialite_en", $valueByED);
+            }
         }
 
         //echo "<pre>" . var_export($byGroup, true) . "</pre>";
