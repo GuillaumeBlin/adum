@@ -86,7 +86,7 @@ function addEvent($date, $desc, $place, $details, $lang)
         if (strcmp($lang, "FR") == 0) {
             $res .= '<h5>' . $defense["these_titre"] . '</h5> ';
             $res .= "<p>par ";
-            $res .= '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            $res .= $defense["prenom"] . ' ' . $defense["nom"] ;
             $res .= " (" . $defense["these_laboratoire"] . ") </p>";
             $res .= "<p>Cette soutenance a lieu à " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
             $res .= '<p>devant le jury composé de <ul>';
@@ -98,7 +98,7 @@ function addEvent($date, $desc, $place, $details, $lang)
         } else {
             $res .= '<h5>' . $defense["these_titre_anglais"] . '</h5> ';
             $res .= "<p>by ";
-            $res .= '<a target="_blank" href="https://adum.fr/script/cv.pl?site=CDUBX&matri=' . $defense["Matricule_etudiant"] . '">' . $defense["prenom"] . ' ' . $defense["nom"] . '</a> ';
+            $res .= $defense["prenom"] . ' ' . $defense["nom"];
             $res .= " (" . $defense["these_laboratoire"] . ") </p>";
             $res .= "<p>The defense will take place at " . $defense["these_heure_soutenance"] . " - " . $defense["these_soutenance_salle"] . " " . $defense["these_soutenance_adresse"] . "</p>";
             $res .= '<p>in front of the jury composed of <ul>';
