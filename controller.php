@@ -7,6 +7,7 @@ namespace Application\Block\Adum;
 use DOMDocument;
 use Concrete\Core\Block\BlockController;
 use Concrete\Core\File\Filesystem;
+use Concrete\Core\Mail;
 
 use Concrete\Core\Block\BlockType\BlockType;
 use Concrete\Core\Page\Page;
