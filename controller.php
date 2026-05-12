@@ -1072,6 +1072,7 @@ class Controller extends BlockController
         $students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles["inscrits"]), true);
         $old_students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles["inscrits.old"]), true);
         $students = $students["data"][0];
+        $old_students = $old_students["data"][0];
         foreach ($students as &$value) {
             $value = $this->array_extract($value, [
                 "Matricule_etudiant",
@@ -1083,18 +1084,28 @@ class Controller extends BlockController
                 "these_titre_anglais"
             ]);
         }
+        foreach ($old_students as &$value) {
+            $value = $this->array_extract($value, [
+                "Matricule_etudiant",
+                "nom",
+                "prenom",
+                "these_cotutelle",
+                "these_ED_code",
+                "these_titre",
+                "these_titre_anglais"
+            ]);
+        }
 
-        $byGroup = $this->group_by("these_cotutelle", $students);
+        $byGroup = $this->group_by("these_cotutelle", $students);        
+        $byGroupOld = $this->group_by("these_cotutelle", $old_students);
+        $byStudent = $this->group_by("Matricule_etudiant", $byGroup['OUI']);
+        echo "<pre>" . var_export($byStudent, true) . "</pre>";
         
-
-        echo "<pre>" . var_export($byGroup['OUI'], true) . "</pre>";
         /*$mailService = Core::make('mail');
         $mailService->setSubject('Test for cotutelle alert');
         $mailService->setBody("Test for cotutelle");
         $mailService->to('guillaume.blin@u-bordeaux.fr', 'Guillaume Blin');
         $mailService->sendMail();*/
-        $message = "Test for cotutelle";
-        mail('guillaume.blin@u-bordeaux.fr', 'Test for cotutelle alert', $message);
     }
     
     public function action_load($bID = false)
