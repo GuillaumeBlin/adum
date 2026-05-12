@@ -21,6 +21,7 @@ class Controller extends BlockController
     protected $btDefaultSet = 'basic';
     protected $jsonFiles = array(
         "inscrits"  => "/../../files/datas_adum/ubx_inscrits.json",
+        "inscrits.old" => "/../../files/datas_adum/ubx_inscrits.json",//ubx_inscrits.old.json
         "soutenances"  => "/../../files/datas_adum/ubx_soutenances.json",
         "formations"  => "/../../files/datas_adum/ubx_formations.json",
         "responsables" => "/../../files/datas_adum/ubx_responsables.json",
@@ -1064,6 +1065,31 @@ class Controller extends BlockController
         }
     }
 
+       /*Cotutelle*/
+    private function load_cotutelle_by_ed()
+    {
+        $students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles["inscrits"]), true);
+        $old_students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles["inscrits.old"]), true);
+        $students = $students["data"][0];
+        foreach ($students as &$value) {
+            $value = $this->array_extract($value, [
+                "Matricule_etudiant",
+                "nom",
+                "prenom",
+                "these_cotutelle",
+                "these_ED_code",
+                "these_titre",
+                "these_titre_anglais"
+            ]);
+        }
+
+        $byGroup = $this->group_by("these_cotutelle", $students);
+        
+
+        echo "<pre>" . var_export($byGroup, true) . "</pre>";
+        
+    }
+    
     public function action_load($bID = false)
     {
         if ($this->bID != $bID) {
