@@ -1093,6 +1093,8 @@ class Controller extends BlockController
         $mailService->setBody("Test for cotutelle");
         $mailService->to('guillaume.blin@u-bordeaux.fr', 'Guillaume Blin');
         $mailService->sendMail();*/
+        $message = "Test for cotutelle";
+        mail('guillaume.blin@u-bordeaux.fr', 'Test for cotutelle alert', $message);
     }
     
     public function action_load($bID = false)
