@@ -1100,8 +1100,11 @@ class Controller extends BlockController
         $byGroupOld = $this->group_by("these_cotutelle", $old_students);
         echo "<pre>" . var_export($byGroup['OUI'], true) . "</pre>";
         
-        
-        
+        $res=array();
+        foreach($byGroup['OUI'] as $elt){
+            $res[$elt['Matricule_etudiant']] = $elt;
+        }
+        echo "<pre>" . var_export($res, true) . "</pre>";
         
         /*$mailService = Core::make('mail');
         $mailService->setSubject('Test for cotutelle alert');
