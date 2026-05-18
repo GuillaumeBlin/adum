@@ -1101,6 +1101,7 @@ class Controller extends BlockController
         
         $students=array();
         foreach($byGroup['OUI'] as $elt){
+            $elt["these_titre"]=$elt["these_titre"]."new";
             $students[$elt['Matricule_etudiant']] = $elt;
         }
         $old_students=array();
