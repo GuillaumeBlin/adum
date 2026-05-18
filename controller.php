@@ -1101,13 +1101,18 @@ class Controller extends BlockController
         
         $students=array();
         foreach($byGroup['OUI'] as $elt){
-            $elt["these_titre"]=$elt["these_titre"]."new";
+            $students[$elt['Matricule_etudiant']] = $elt;
+        }
+        foreach($byGroup['NON'] as $elt){
             $students[$elt['Matricule_etudiant']] = $elt;
         }
         $old_students=array();
         foreach($byGroupOld['OUI'] as $elt){
             $old_students[$elt['Matricule_etudiant']] = $elt;
-        }        
+        }
+        foreach($byGroupOld['NON'] as $elt){
+            $old_students[$elt['Matricule_etudiant']] = $elt;
+        }
         foreach( $students as $k => $v){
             if($v["these_titre"] != $old_students[$k]["these_titre"]){
                 echo "title change detected for ".$v["nom"]." ".$v["prenom"];
