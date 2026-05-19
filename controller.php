@@ -1017,9 +1017,9 @@ class Controller extends BlockController
     /*Incoming training*/
     private function load_training_by_ed()
     {
-        $mailService = \Core::make('mail');
+        $mailService = Core::make('mail');
             $mailService->setSubject('Changement de titre cotutelle');
-            $mailService->setBodyHTML("Test);
+            $mailService->setBodyHTML("Test");
             $mailService->from('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
             $mailService->to('lemail2guillaume@gmail.com', 'Test');
             $mailService->cc('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
