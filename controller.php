@@ -1017,7 +1017,7 @@ class Controller extends BlockController
     /*Incoming training*/
     private function load_training_by_ed()
     {
-        $mailService = Core::make('mail');
+        $mailService = \Core::make('mail');
             $mailService->setSubject('Changement de titre cotutelle');
             $mailService->setBodyHTML("Test);
             $mailService->from('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
@@ -1122,7 +1122,7 @@ class Controller extends BlockController
             }
         }
         if(strlen($msg) > 0){                        
-            $mailService = Core::make('mail');
+            $mailService = \Core::make('mail');
             $mailService->setSubject('Changement de titre cotutelle');
             $mailService->setBodyHTML($msg);
             $mailService->from('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
