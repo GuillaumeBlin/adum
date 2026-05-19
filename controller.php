@@ -22,7 +22,7 @@ class Controller extends BlockController
     protected $btDefaultSet = 'basic';
     protected $jsonFiles = array(
         "inscrits"  => "/../../files/datas_adum/ubx_inscrits.json",
-        "inscrits.old" => "/../../files/datas_adum/ubx_inscrits.json",//ubx_inscrits.old.json
+        "inscrits.old" => "/../../files/datas_adum/ubx_inscrits.old.json",
         "soutenances"  => "/../../files/datas_adum/ubx_soutenances.json",
         "formations"  => "/../../files/datas_adum/ubx_formations.json",
         "responsables" => "/../../files/datas_adum/ubx_responsables.json",
