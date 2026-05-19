@@ -1017,6 +1017,14 @@ class Controller extends BlockController
     /*Incoming training*/
     private function load_training_by_ed()
     {
+        $mailService = Core::make('mail');
+            $mailService->setSubject('Changement de titre cotutelle');
+            $mailService->setBodyHTML("Test);
+            $mailService->from('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
+            $mailService->to('lemail2guillaume@gmail.com', 'Test');
+            $mailService->cc('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
+            $mailService->sendMail();
+        
         $trainings = $this->retrieve_json("formations", $this->year);
 
         $ntrainings = $trainings["data"];
@@ -1113,15 +1121,14 @@ class Controller extends BlockController
                 $msg.="Changement de titre détecté pour ".$v["nom"]." ".$v["prenom"]."\n";
             }
         }
-        if(strlen($msg) > 0){            
-            /*
-            $mailService = \Core::make('mail');
+        if(strlen($msg) > 0){                        
+            $mailService = Core::make('mail');
             $mailService->setSubject('Changement de titre cotutelle');
             $mailService->setBodyHTML($msg);
             $mailService->from('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
             $mailService->to('bf-cotutelle-doctorat@u-bordeaux.fr', 'Cotutelle');
-            $mailService->sendMail();
-            */
+            $mailService->cc('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
+            $mailService->sendMail();            
         }
     }
     
