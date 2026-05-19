@@ -1067,7 +1067,7 @@ class Controller extends BlockController
     }
 
        /*Cotutelle*/
-    private function load_cotutelle_by_ed()
+    public function verif_cotutelle_titles()
     {
         $students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles["inscrits"]), true);
         $old_students = json_decode(file_get_contents(realpath(dirname(__FILE__)) . $this->jsonFiles["inscrits.old"]), true);
@@ -1103,28 +1103,26 @@ class Controller extends BlockController
         foreach($byGroup['OUI'] as $elt){
             $students[$elt['Matricule_etudiant']] = $elt;
         }
-        foreach($byGroup['NON'] as $elt){
-            $students[$elt['Matricule_etudiant']] = $elt;
-        }
         $old_students=array();
         foreach($byGroupOld['OUI'] as $elt){
             $old_students[$elt['Matricule_etudiant']] = $elt;
         }
-        foreach($byGroupOld['NON'] as $elt){
-            $old_students[$elt['Matricule_etudiant']] = $elt;
-        }
+        $msg="";
         foreach( $students as $k => $v){
             if($v["these_titre"] != $old_students[$k]["these_titre"]){
-                echo "title change detected for ".$v["nom"]." ".$v["prenom"];
+                $msg.="Changement de titre détecté pour ".$v["nom"]." ".$v["prenom"]."\n";
             }
         }
-        //echo "<pre>" . var_export($res, true) . "</pre>";
-        
-        /*$mailService = Core::make('mail');
-        $mailService->setSubject('Test for cotutelle alert');
-        $mailService->setBody("Test for cotutelle");
-        $mailService->to('guillaume.blin@u-bordeaux.fr', 'Guillaume Blin');
-        $mailService->sendMail();*/
+        if(strlen($msg) > 0){            
+            /*
+            $mailService = \Core::make('mail');
+            $mailService->setSubject('Changement de titre cotutelle');
+            $mailService->setBodyHTML($msg);
+            $mailService->from('guillaume.blin@u-bordeaux.fr','Guillaume Blin' );
+            $mailService->to('bf-cotutelle-doctorat@u-bordeaux.fr', 'Cotutelle');
+            $mailService->sendMail();
+            */
+        }
     }
     
     public function action_load($bID = false)
