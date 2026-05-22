@@ -1110,7 +1110,7 @@ class Controller extends BlockController
         }
         $msg="";
         foreach( $students as $k => $v){
-            if($v["these_titre"] != $old_students[$k]["these_titre"]){
+            if(array_key_exists($k, $old_students) && $v["these_titre"] != $old_students[$k]["these_titre"]){
                 $msg.="Changement de titre détecté pour ".$v["nom"]." ".$v["prenom"]." : '".$old_students[$k]["these_titre"]."' -> '".$v["these_titre"]."'\n";
             }
         }
