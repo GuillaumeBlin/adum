@@ -930,7 +930,7 @@ class Controller extends BlockController
 
 
         $students = array_filter($students, function ($student) {
-            return ((strtotime("today") <= strtotime($student["these_date_soutenance"])) && (strcmp($student["these_visibilite"],"publique") == 0));
+            return ((strtotime("today") <= strtotime($student["these_date_soutenance"])) && (strcmp($student["these_visibilite"],"huis clos") != 0));
             //return ((strtotime("today") <= strtotime($student["these_date_soutenance"])) && (strcmp($student["these_visibilite"],"") == 0));
         });
 
