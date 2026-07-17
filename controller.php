@@ -923,13 +923,14 @@ class Controller extends BlockController
                 "these_resume_anglais",
                 "these_resume_fr",
                 "these_soutenance_adresse",
-                "these_soutenance_salle"
+                "these_soutenance_salle",
+                "these_visibilite"
             ]);
         }
 
 
         $students = array_filter($students, function ($student) {
-            return strtotime("today") <= strtotime($student["these_date_soutenance"]);
+            return ((strtotime("today") <= strtotime($student["these_date_soutenance"])) && (strcmp($student["these_visibilite"],"") == 0));
         });
 
         usort($students, array($this, 'defense_sorter'));
